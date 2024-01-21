@@ -6,7 +6,10 @@ const ClientComponent = dynamic(
   () => import("../components/ClientComponent.js"),
   { ssr: false }
 );
-const Form = dynamic(() => import("../components/Form.js"), { ssr: false });
+const Form = dynamic(
+  () => import("../components/RecordForm/Form.js/index.js"),
+  { ssr: false }
+);
 
 export default async function Home() {
   const response = await fetch(
