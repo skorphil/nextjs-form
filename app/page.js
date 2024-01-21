@@ -5,9 +5,12 @@ const ClientComponent = dynamic(
   () => import("../components/ClientComponent.js"),
   { ssr: false }
 );
-const Form = dynamic(() => import("../components/RecordForm/RecordForm"), {
-  ssr: false,
-});
+const RecordForm = dynamic(
+  () => import("../components/RecordForm/RecordForm"),
+  {
+    ssr: false,
+  }
+);
 
 export default async function Home() {
   const response = await fetch(
@@ -25,7 +28,7 @@ export default async function Home() {
   const isClient = typeof window !== "undefined";
   return (
     <main className={styles.main}>
-      <Form submitHandle={search} />
+      <RecordForm submitHandle={search} />
       {data.date}
       {isClient ? "home client" : "home server"}
       <ClientComponent />

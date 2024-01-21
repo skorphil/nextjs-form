@@ -1,13 +1,19 @@
-/** @type { import('@storybook/react').Preview } */
-const preview = {
-  parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
-  },
-};
+import { Providers } from "../app/providers";
 
-export default preview;
+// /** @type { import('@storybook/react').Preview } */
+// const preview = {
+//   parameters: {
+//     controls: {
+//       matchers: {
+//         color: /(background|color)$/i,
+//         date: /Date$/i,
+//       },
+//     },
+//   },
+// };
+
+// export default preview;
+
+export const decorators = [
+  (renderStory) => <Providers>{renderStory()}</Providers>,
+];
