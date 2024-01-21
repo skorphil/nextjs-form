@@ -1,15 +1,13 @@
 import styles from "./page.module.css";
-
 import dynamic from "next/dynamic";
 
 const ClientComponent = dynamic(
   () => import("../components/ClientComponent.js"),
   { ssr: false }
 );
-const Form = dynamic(
-  () => import("../components/RecordForm/Form.js/index.js"),
-  { ssr: false }
-);
+const Form = dynamic(() => import("../components/RecordForm/RecordForm"), {
+  ssr: false,
+});
 
 export default async function Home() {
   const response = await fetch(
@@ -27,7 +25,7 @@ export default async function Home() {
   const isClient = typeof window !== "undefined";
   return (
     <main className={styles.main}>
-      <Form search={search} />
+      <Form submitHandle={search} />
       {data.date}
       {isClient ? "home client" : "home server"}
       <ClientComponent />

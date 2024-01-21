@@ -3,7 +3,7 @@
 import { Input, Button, Checkbox } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function Form({ search }) {
+export default function RecordForm({ submitHandle }) {
   const isClient = typeof window !== "undefined";
   const [value, setValue] = useState("defaultState");
   const handleChange = (ev) => {
@@ -14,7 +14,7 @@ export default function Form({ search }) {
   return (
     <>
       <p>{isClient ? "form client" : "form server"}</p>
-      <form action={search}>
+      <form action={submitHandle}>
         <Input name="group1[query]" onChange={handleChange} value={value} />
         <Checkbox name="group1[isAsset]" defaultChecked>
           Checkbox
