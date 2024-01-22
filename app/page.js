@@ -22,12 +22,11 @@ export default async function Home() {
     "use server";
     const query = formData.get("query");
     console.log(formData);
-    console.log(`You searched for '${query}'`);
   }
 
   const isClient = typeof window !== "undefined";
   return (
-    <main className={styles.main}>
+    <main>
       <RecordForm submitHandle={search} />
       {data.date}
       {isClient ? "home client" : "home server"}
