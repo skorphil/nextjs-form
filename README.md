@@ -2,7 +2,7 @@ Educational project to practice React form handling.
 
 ## Stack
 - [nextjs](https://nextjs.org)
-- [chakra](https://chakra-ui.com)
+- [chakra](https://chakra-ui.com) chose chakra because seemed to be simpler than Mantine. But from my experience - community is less supportive, than Mantine's. 
 - [react-hook-form](https://react-hook-form.com)
 - [storybook](https://storybook.js.org) (8.0 alpha to play with RSC)
 - npm-run-all (to run nextjs and storybook simultaneously)
