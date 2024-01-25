@@ -20,6 +20,11 @@ const config = {
     autodocs: "tag",
   },
   staticDirs: ["../public"],
+  refs: {
+    "@chakra-ui/react": {
+      disable: true,
+    },
+  },
 };
 
 export default config;
