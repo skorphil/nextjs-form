@@ -9,3 +9,9 @@
 Arrow functions not perform as usual functions in devtools. I cant see their arguments value and output value.
 
 ![devtools screenshot demonstrating arrow function](img/debug-arrow-func.png)
+
+
+## Chromatic storybook
+Free and simple solution to publish storybook to web
+
+[Github Action Chromatic](https://www.chromatic.com/docs/github-actions/)

@@ -26,7 +26,7 @@ export default function AssetContainer({ asset, isExpanded }) {
         {isExpanded && <FormLabel>Amount</FormLabel>}
         <NumberInput
           onChange={(val) => setAmount(parse(val))}
-          value={numFormat(amount)}
+          value={numFormat(asset.amount)}
           name="amount"
         >
           <NumberInputField px={2} />
@@ -44,7 +44,7 @@ export default function AssetContainer({ asset, isExpanded }) {
   );
 
   return (
-    <VStack align="start" spacing={3}>
+    <VStack align="start" spacing={3} w="100%">
       <HStack w="100%" align="end" spacing={4}>
         {amountInput}
         {isExpanded && (
