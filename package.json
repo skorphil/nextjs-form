@@ -9,8 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=$CHROMATIC_KEY"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
