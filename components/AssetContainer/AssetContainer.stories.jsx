@@ -7,5 +7,12 @@ const meta = {
 export default meta;
 
 export const Default = {
-  args: {},
+  args: {
+    isExpanded: true,
+    asset: {
+      amount: 10000,
+      isEarning: false,
+      description: "My Visa debit card",
+    },
+  },
 };

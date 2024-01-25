@@ -1,5 +1,12 @@
-import AssetContainer from "../components/AssetContainer/AssetContainer.jsx";
+// import AssetContainer from "../components/AssetContainer/AssetContainer";
 import dynamic from "next/dynamic";
+
+const AssetContainer = dynamic(
+  () => import("../components/AssetContainer/AssetContainer"),
+  {
+    ssr: true,
+  }
+);
 
 export default function Home() {
   // const response = await fetch(
@@ -16,7 +23,6 @@ export default function Home() {
   const isClient = typeof window !== "undefined";
   return (
     <main>
-      <div>{isClient ? "client" : "server"}</div>
       <AssetContainer />
     </main>
   );

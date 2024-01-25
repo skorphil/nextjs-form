@@ -21,7 +21,7 @@ For RecordForm I sticked to vanilla JS, because seems easier and this way I redu
 
 ```jsx
 const [amount, setAmount] = useState(0);
-const numFormat = (val) => val.toLocaleString("en-US", { style: "decimal" });
+const numFormat = (val) => val.toLocaleString();
 const parse = (val) => Number(val.replace(/^\$/, "")); // val is string, so need to use Number() to make it work with .toLocaleString
 
 <NumberInput // props go in chakra <NumberInput>, not <NumberInputField>
