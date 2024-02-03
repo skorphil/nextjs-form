@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { ColorModeScript } from "@chakra-ui/react";
+import theme from "./ChakraTheme";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,6 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Providers>{children}</Providers>
       </body>
     </html>

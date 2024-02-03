@@ -2,6 +2,7 @@
 
 // 1. import `extendTheme` function
 import { extendTheme } from "@chakra-ui/react";
+import { tabsTheme } from "../components/InstitutionTab/Tabs.chakra";
 
 // 2. Add your color mode config
 const config = {
@@ -9,7 +10,16 @@ const config = {
   useSystemColorMode: false,
 };
 
-// 3. extend the theme
-const theme = extendTheme({ config });
+const tab = {
+  // how to style complex components?
+};
 
+// 3. extend the theme
+const theme = extendTheme({
+  config,
+  components: {
+    Tabs: tabsTheme,
+  },
+});
+console.log(theme);
 export default theme;

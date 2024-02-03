@@ -1,0 +1,46 @@
+.deleted {
+    text-decoration: line-through;
+    color: var(--chakra-colors-gray-500);
+}
+
+.deleteIcon {
+    width: var(--chakra-sizes-6);
+    height: var(--chakra-sizes-6);
+    
+    color: var(--chakra-colors-gray-300);
+    
+    pointer-events: auto;
+
+}
+
+.stateIcon {
+    flex-shrink: 0;
+    width: var(--chakra-sizes-7);
+    padding: 2px;
+
+    font-weight: var(--chakra-fontWeights-extrabold);
+    font-size: var(--chakra-fontSizes-2xs);
+    color:var(--chakra-colors-black);
+    
+    border-radius: var(--chakra-radii-base);
+    background-color: var(--chakra-colors-gray-500);
+}
+
+.tab {
+    justify-content: space-between;
+    height: var(--chakra-sizes-10);
+    padding-left: var(--chakra-sizes-1);
+    gap: var(--chakra-sizes-3);
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    border-radius: var(--chakra-radii-lg);  
+}
+
+.tabName {
+    flex-shrink: 1;
+    max-width: 100%;
+    min-width: var(--chakra-sizes-1);
+    overflow: hidden;
+}
