@@ -26,7 +26,7 @@ export default function AssetContainer({ asset, isExpanded }) {
         {isExpanded && <FormLabel>Amount</FormLabel>}
         <NumberInput
           onChange={(val) => setAmount(parse(val))}
-          value={numFormat(asset.amount)}
+          value={numFormat(asset?.amount ?? 0)}
           name="amount"
         >
           <NumberInputField px={2} />
