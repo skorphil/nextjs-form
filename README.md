@@ -16,3 +16,6 @@ Educational project to practice React form handling.
 - [Learned topics](docs/learned-topics.md)
 - [Project Management](https://github.com/users/skorphil/projects/4)
 
+## Components preview
+- [Chromatic](https://www.chromatic.com/library?appId=65b2882ac1586a6b21cba0dd)
+
