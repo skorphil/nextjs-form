@@ -2,7 +2,7 @@ import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
 import classes from "./InstitutionTab.module.css";
 
-const IntitutionTab = forwardRef(
+export const InstitutionTab = forwardRef(
   (
     { name = "Unnamed institution", isDeleted = false, state = null, ...props },
     ref
@@ -37,5 +37,3 @@ function TabRightSection({ state, isDeleted }) {
     );
   } else return false;
 }
-
-export default IntitutionTab;

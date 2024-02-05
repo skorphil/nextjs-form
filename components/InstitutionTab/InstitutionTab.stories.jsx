@@ -1,4 +1,4 @@
-import InstitutionTab from "./InstitutionTab";
+import { InstitutionTab } from "./InstitutionTab";
 import { Tabs, TabList } from "@chakra-ui/react";
 
 export default {
