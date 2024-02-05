@@ -1,0 +1,14 @@
+.grid {
+    gap: var(--chakra-sizes-3)
+    /* display property is overriden with flex by chakra theme, 
+    so specified grid there (InstitutionTabsList.chakra.js) */
+}
+
+.expanded {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.collapsed {
+    grid-auto-flow: column;
+    width: fit-content;
+}
