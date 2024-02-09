@@ -12,7 +12,7 @@ Educational project to practice React form handling.
  
 ## Table Of Contents
 - [Project Task](docs/project-task.md)
-- [Project Architecture](docs/project-architecture.md)
+- [App Architecture](docs/app-architecture.md)
 - [Project Structure](docs/project-structure.md)
 - [Learned topics](docs/learned-topics.md)
 - [Project Management](https://github.com/users/skorphil/projects/4)
