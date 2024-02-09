@@ -5,10 +5,9 @@ export default {
   title: "RecordForm/InstitutionTab",
   component: InstitutionTab,
   decorators: [
-    (Story) => (
-      <Tabs variant="grid">
+    (Story, { args }) => (
+      <Tabs index={args.isSelected ? 0 : null} variant="grid">
         <TabList>
-          <Story />
           <Story />
         </TabList>
       </Tabs>
@@ -18,6 +17,7 @@ export default {
 
 export const Default = {
   args: {
+    isSelected: false,
     isDeleted: false,
     state: null,
     name: "Wells & Fargo",
