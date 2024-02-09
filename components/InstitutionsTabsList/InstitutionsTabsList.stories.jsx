@@ -1,4 +1,5 @@
-import InstitutionsTabsList from "./InstitutionsTabsList";
+import { Tabs } from "@chakra-ui/react";
+import { InstitutionsTabsList } from "./InstitutionsTabsList";
 
 export default {
   title: "RecordForm/InstitutionsTabsList",
@@ -6,7 +7,9 @@ export default {
   decorators: [
     (Story) => (
       <>
-        <Story />
+        <Tabs variant="grid">
+          <Story />
+        </Tabs>
         <input type="text" placeholder="test keyboard" />
       </>
     ),

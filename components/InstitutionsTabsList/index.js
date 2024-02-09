@@ -1,2 +1,2 @@
 export { InstitutionsTabsList } from "./InstitutionsTabsList";
-export { InstitutionsTabsListStyle } from "./InstitutionTabsList.chakra";
+export { institutionsTabsListStyle } from "./InstitutionsTabsList.chakra";

@@ -1,4 +1,4 @@
-import InstitutionContainer from "./InstitutionContainer";
+import { InstitutionContainer } from "./InstitutionContainer";
 
 const meta = {
   title: "RecordForm/InstitutionContainer",
