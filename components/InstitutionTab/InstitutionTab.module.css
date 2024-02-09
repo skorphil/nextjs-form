@@ -15,7 +15,7 @@
 
 .stateIcon {
     flex-shrink: 0;
-    width: var(--chakra-sizes-7);
+    width: var(--chakra-sizes-8);
     padding: 2px;
 
     font-weight: var(--chakra-fontWeights-extrabold);
@@ -32,9 +32,6 @@
     padding-left: var(--chakra-sizes-1);
     gap: var(--chakra-sizes-3);
 
-    text-overflow:ellipsis;
-    white-space:nowrap;
-
     border-radius: var(--chakra-radii-lg);  
 }
 
@@ -43,4 +40,6 @@
     max-width: 100%;
     min-width: var(--chakra-sizes-1);
     overflow: hidden;
+    text-overflow:clip;
+    white-space:nowrap;
 }
