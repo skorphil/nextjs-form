@@ -14,7 +14,7 @@ import {
 import AssetContainer from "../AssetContainer/AssetContainer";
 import { CgMinimizeAlt } from "react-icons/cg";
 
-export default function InstitutionContainer({
+export function InstitutionContainer({
   institution,
   assetContainer,
   isExpanded,
@@ -26,11 +26,16 @@ export default function InstitutionContainer({
         pos="relative"
         spacing={isExpanded ? 8 : 4}
         borderRadius={isExpanded || "lg"}
-        margin={isExpanded || 2}
         padding={isExpanded ? 2 : 3}
         bg="whiteAlpha.50"
+        h="100%"
+        minHeight={isExpanded && "100vh"}
       >
-        {isExpanded || <Heading size="sm">CityBank</Heading>}
+        {isExpanded || (
+          <Heading flexShrink={0} size="sm">
+            {institution.name}
+          </Heading>
+        )}
         {isExpanded && (
           <HStack w="100%" align="end" spacing={3}>
             <InstitutionNameInput />
@@ -39,7 +44,7 @@ export default function InstitutionContainer({
         )}
         <AssetsList isExpanded={isExpanded} institution={institution} />
         {isExpanded || (
-          <Button variant="outline" w="100%">
+          <Button flexShrink={0} variant="outline" w="100%">
             Edit
           </Button>
         )}
@@ -74,7 +79,8 @@ const ExpandedHeader = () => {
 const AssetsList = ({ isExpanded, institution }) => {
   return (
     <VStack
-      maxHeight={isExpanded ? false : "166px"}
+      height="100%"
+      // maxHeight={isExpanded ? false : "166px"}
       w="100%"
       overflow="auto"
       spacing={isExpanded ? 6 : 2}
@@ -90,7 +96,7 @@ const AssetsList = ({ isExpanded, institution }) => {
 
       {isExpanded && (
         <>
-          <Button>Add Asset</Button>
+          <Button flexShrink={0}>Add Asset</Button>
           <ButtonGroup alignSelf="end">
             <Button variant="outline">Delete</Button>
             <Button variant="outline">Reset</Button>
