@@ -1,5 +1,7 @@
 "use client";
 
+// TODO fix animation framer https://github.com/skorphil/nextjs-form/issues/25
+
 import { InstitutionTab } from "../InstitutionTab";
 import {
   Tabs,
@@ -13,6 +15,7 @@ import {
 import classes from "./InstitutionsTabsList.module.css";
 import { CgMathPlus } from "react-icons/cg";
 import { useVisualViewportSize } from "../../app/hooks";
+import { motion } from "framer-motion";
 
 export function InstitutionsTabsList({
   institutions,
@@ -26,6 +29,7 @@ export function InstitutionsTabsList({
     <Box my={isKeyboardOpened || 3}>
       {isKeyboardOpened || <Heading size="md">Record Institutions</Heading>}
       <Box
+        key="boxtab1"
         overflowX={isKeyboardOpened && "auto"}
         px={isKeyboardOpened && 2}
         py={2}
@@ -36,6 +40,9 @@ export function InstitutionsTabsList({
         >
           {institutions.map((institution, id) => (
             <InstitutionTab
+              // transition="2s linear"
+              // as={motion.div}
+              // layout="position"
               width={isKeyboardOpened && "180px"}
               key={`institutionTab-${id}`}
               name={institution.name}

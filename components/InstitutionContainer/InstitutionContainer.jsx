@@ -1,5 +1,7 @@
 "use Client";
 
+// TODO add animation transaction from collapsed do expanded
+
 import {
   Heading,
   VStack,
@@ -13,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import AssetContainer from "../AssetContainer/AssetContainer";
 import { CgMinimizeAlt } from "react-icons/cg";
+import { motion } from "framer-motion";
 
 export function InstitutionContainer({
   institution,
@@ -22,6 +25,10 @@ export function InstitutionContainer({
   return (
     <>
       <VStack
+        flexGrow={1}
+        // transition="2s linear"
+        // as={motion.div}
+        layout
         alignItems="start"
         pos="relative"
         spacing={isExpanded ? 8 : 4}

@@ -13,7 +13,7 @@ export function useVisualViewportSize() {
       });
     }
     window.visualViewport.addEventListener("resize", () =>
-      setTimeout(updateVisualViewportSize, 200)
+      setTimeout(updateVisualViewportSize, 0)
     );
     updateVisualViewportSize();
     return () => window.removeEventListener("resize", updateVisualViewportSize);
