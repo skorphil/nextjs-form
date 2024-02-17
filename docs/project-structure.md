@@ -1,6 +1,6 @@
 # Project Structure
 
-```
+```js
 /app
     hooks.js // Custom hooks
     ChakraTheme.js // Extending default chakra ui theme (import *.chakra.js)

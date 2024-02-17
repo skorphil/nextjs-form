@@ -16,20 +16,18 @@ function InstitutionsList({
 
   return (
     <Tabs
+      flexGrow={1}
+      minH="200px"
       // className={classes.institutionsList}
-      h={isKeyboardOpened && height}
+      h="100%"
       // display="flex"
       // flexDir="column"
       variant="grid"
       padding={isExpanded || 2}
     >
-      <TabPanels flexGrow={isKeyboardOpened && 1} flexShrink={1} minH="200px">
+      <TabPanels flexGrow={1} flexShrink={1} minH="200px">
         {institutions.map((institution, index) => (
-          <TabPanel
-            p={0}
-            key={"tab-panel-" + index}
-            h={isKeyboardOpened ? "100%" : "230px"}
-          >
+          <TabPanel p={0} key={"tab-panel-" + index} h="100%">
             <InstitutionContainer
               isExpanded={isExpanded}
               institution={institution}

@@ -1,29 +1,32 @@
+/* 
+Root element of the form
+*/
+
 "use client";
 
 import classes from "./RecordForm.module.css";
 import { Input, Button, Checkbox } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function RecordForm({ submitHandle }) {
+import { InstitutionsList } from "../InstitutionsList";
+import { FormHeader } from "~/FormHeader";
+
+export default function RecordForm({ onSubmit, prevRecord }) {
+  // TODO check naming conventions for submitAction server action
   const isClient = typeof window !== "undefined";
-  const [value, setValue] = useState("defaultState");
-  const handleChange = (ev) => {
-    console.log(ev.currentTarget);
-    setValue(ev.currentTarget.value);
-  };
 
   return (
-    <form className={classes.RecordForm} action={submitHandle}>
-      <p>{isClient ? "form client" : "form server"}</p>
-      <Input name="group1[query]" onChange={handleChange} value={value} />
-      <Checkbox name="group1[isAsset]" defaultChecked>
-        Checkbox
-      </Checkbox>
-      <Input name="group2[query]" value="initial value" />
-      <Checkbox name="group2[isAsset]" defaultChecked>
-        Checkbox
-      </Checkbox>
-      <Button type="submit">Search</Button>
+    <form className={classes.RecordForm} /* action={onSubmit} */>
+      <FormHeader
+        text="New Record"
+        rightButtons={
+          <>
+            <Button variant="outline">Cancel</Button>
+            <Button>Save</Button>
+          </>
+        }
+      />
+      <InstitutionsList institutions={prevRecord.institutions} />
     </form>
   );
 }

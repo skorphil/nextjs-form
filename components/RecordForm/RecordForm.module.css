@@ -1,7 +1,10 @@
 .RecordForm {
-    margin: 60px;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    /* margin: 60px;
     padding: 20px;
     border-style: solid;
     border-color: grey;
-    border-width: 2px;
+    border-width: 2px; */
 }
