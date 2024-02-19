@@ -1,0 +1,137 @@
+@startuml
+
+class RecordForm {
+.. Props ..
+Fetched data
+.. States ..
+- InstitutionsState (array)
+- isOpenedInstitution (bool)
+.. Listeners ..
+null
+.. Methods ..
+- handleSave
+- handleCancel
+
+- handleAssetCreate (maybe native for useForm)
+- handleAssetDelete
+
+- handleInstitutionCollapse
+- handleInstitutionExpand
+- handleInstitutionCreate
+- handleInstitutionDelete
+- handleInstitutionRestore
+- handleInstitutionReset
+}
+
+class FormHeader {
+.. Props ..
+- text
+- buttons
+.. States ..
+null
+.. Listener ..
+- saveButton onClick
+- cancelButton onClick
+---
+- collapseButton onClick
+}
+
+class InstitutionsList {
+.. Props ..
+- isOpenedInstitution (bool)
+- institutions (array)
+- isOpenedInstitution (bool)
+.. States ..
+- isCompact (bool)
+- selectedInstitutionId (number)
+.. Listener ..
+- viewport onChange (setIsCompact)
+}
+
+class InstitutionsTabsList {
+.. Props ..
+- isCompact (bool)
+- Institutions (array)
+- onCreate (function)
+.. States ..
+null
+.. Listener ..
+- createInstitutionButton onClick
+
+}
+
+class InstitutionContainer {
+.. Props ..
+- isFullScreen (bool)
+- Institution (object)
+---
+- onEdit (function)
+- onCollapse (function)
+- onDelete (function)
+- onReset (function)
+- onAddAsset (function)
+.. States ..
+null
+.. Listener ..
+- editButton onClick
+- collapseButton onClick
+- addAssetButton onClick
+- deleteButton onClick
+- resetButton onClick
+---
+- nameInput onChange
+- countryInput onChange
+}
+
+class InstitutionTab {
+.. Props ..
+- isNew
+- isDeleted
+- isUpdated
+- text
+- onRestore
+.. States ..
+null
+.. Listener ..
+- restoreButton click
+- tab onClick
+}
+
+class AssetContainer {
+.. Props ..
+- isCompact (bool)
+- Asset (array)
+- onDeleteAsset (function)
+.. States ..
+null
+.. Listener ..
+- deleteButton onClick
+- inputs onChange
+}
+
+RecordForm --> FormHeader
+RecordForm .[#green].> FormHeader::text
+RecordForm .[#green].> FormHeader::buttons
+
+RecordForm --> InstitutionsList
+RecordForm .[#green].> InstitutionsList::isOpened
+RecordForm .[#green].> InstitutionsList::institutions
+
+RecordForm::handleInstitutionCreate .[#green].> InstitutionsTabsList::onCreate
+RecordForm::handleInstitutionExpand .[#green].> InstitutionContainer::onEdit
+RecordForm::handleInstitutionCollapse .[#green].> InstitutionContainer::onCollapse
+RecordForm::handleInstitutionDelete .[#green].> InstitutionContainer::onDelete
+RecordForm::handleInstitutionReset .[#green].> InstitutionContainer::onReset
+RecordForm::handleAssetCreate .[#green].> InstitutionContainer::onAddAsset
+RecordForm::handleInstitutionRestore .[#green].> InstitutionTab::onRestore
+RecordForm::handleAssetDelete .[#green].> AssetContainer::onDeleteAsset
+
+
+InstitutionsList --> InstitutionsTabsList
+InstitutionsList --> InstitutionContainer
+InstitutionsTabsList --> InstitutionTab
+InstitutionContainer --> AssetContainer
+
+
+
+@enduml
