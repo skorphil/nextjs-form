@@ -1,39 +1,34 @@
-## Formatting numbers like 1,000.0000
-For amount inputField I want numbers with thousands separator. It can be achieved with:
-```js
-const format = (val) => {formatting logic here}
+## AssetContainer
+### Props
+```diff
+isCompact (bool). From [InstitutionContainer]
+onDeleteAsset (function) From [RecordForm]
++ assetName (string `institutions.ID.assets.ID`) used for registering input
 
-<NumberInput value={format(value)} />
-```
-[Chakra docs](https://chakra-ui.com/docs/components/number-input#formatting-and-parsing-the-value)
-
-It can be achieved with several approaches:
-- Library for number formatting
-    - [react-number-format](https://s-yadav.github.io/react-number-format/docs/props) I dont like nesting approach. To use input with props `<Input name="currency" placeholder="USD />` inside `<NumericFormat customInput={input}>` i need to create separate variable. At first glance it seems not optimal.
-    - [numbrojs](https://numbrojs.com)
-    - [numeraljs](http://numeraljs.com) (I used this one before and like it, but library seems very outdated)
-
-- Vanilla js with `toLocalString`
-  [stackoverflow](https://stackoverflow.com/a/48062039/15007541)
-
-For RecordForm I sticked to vanilla JS, because seems easier and this way I reduce the number of dependencies.
-
-
-```jsx
-const [amount, setAmount] = useState(0);
-const numFormat = (val) => val.toLocaleString();
-const parse = (val) => Number(val.replace(/^\$/, "")); // val is string, so need to use Number() to make it work with .toLocaleString
-
-<NumberInput // props go in chakra <NumberInput>, not <NumberInputField>
-    onChange={(val) => setAmount(parse(val))} // val returns string
-    value={numFormat(amount)}
-    name="amount"
-    px={2}
->
-    <NumberInputField />
-</NumberInput>
+- Asset (array) From [InstitutionContainer] // used before use-hook-form
+- InstitutionId 
+- AssetId // used for registering fields to useForm, but later joined replaced with single assetName prop 
 ```
 
-`Number("") === 0` so when i clear input i got 0. For now i decided to let this be
+### Listeners
+- deleteButton onClick 
+- inputs onChange
 
-This will be changed later when used with *react-hook-form*
+### States
+```mermaid
+---
+title: AssetContainer
+---
+stateDiagram-v2
+    direction LR
+
+[*] --> expanded
+[*] --> compact
+expanded --> compact : prop iscompact changed
+compact --> expanded : prop iscompact changed
+```
+
+## See also
+- [next.js/examples/next-forms at canary · vercel/next.js · GitHub](https://github.com/vercel/next.js/tree/canary/examples/next-forms)
+- [Data Fetching: Server Actions and Mutations | Next.js](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms)
+- https://react-hook-form.com/docs/usefieldarray

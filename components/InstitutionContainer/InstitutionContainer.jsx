@@ -13,13 +13,16 @@ import {
   Button,
   ButtonGroup,
 } from "@chakra-ui/react";
-import AssetContainer from "../AssetContainer/AssetContainer";
+import { AssetContainer } from "~/AssetContainer";
 import { CgMinimizeAlt } from "react-icons/cg";
 import { motion } from "framer-motion";
+import { useFormContext, useFieldArray } from "react-hook-form";
+import { institutionTabStyle } from "~/InstitutionTab";
 
 export function InstitutionContainer({
   institution,
   assetContainer,
+  institutionId,
   isExpanded,
 }) {
   return (
@@ -49,7 +52,7 @@ export function InstitutionContainer({
             <InstitutionCountryInput />
           </HStack>
         )}
-        <AssetsList isExpanded={isExpanded} institution={institution} />
+        <AssetsList isExpanded={isExpanded} institutionId={institutionId} />
         {isExpanded || (
           <Button flexShrink={0} variant="outline" w="100%">
             Edit
@@ -83,7 +86,11 @@ const ExpandedHeader = () => {
   );
 };
 
-const AssetsList = ({ isExpanded, institution }) => {
+const AssetsList = ({ isExpanded, institutionId }) => {
+  const arrayName = `institutions.${institutionId}.assets`;
+  const { fields: assets, remove } = useFieldArray({
+    name: arrayName,
+  });
   return (
     <VStack
       height="100%"
@@ -93,11 +100,13 @@ const AssetsList = ({ isExpanded, institution }) => {
       spacing={isExpanded ? 6 : 2}
       align="start"
     >
-      {institution.assets.map((asset, index) => (
+      {assets.map((asset, index) => (
         <AssetContainer
-          key={`asset-${index}`}
+          key={asset.id}
+          onDeleteAsset={() => remove(index)}
+          assetName={`${arrayName}.${index}`}
           isExpanded={isExpanded}
-          asset={asset}
+          // asset={asset}
         />
       ))}
 
