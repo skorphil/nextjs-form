@@ -1,17 +1,4 @@
-/* 
-Root element of the form
-*/
-
-"use client";
-
 import { useForm, FormProvider } from "react-hook-form";
-
-import classes from "./RecordForm.module.css";
-import { Input, Button, Checkbox } from "@chakra-ui/react";
-import { useState } from "react";
-
-import { InstitutionsList } from "../InstitutionsList";
-import { FormHeader } from "~/FormHeader";
 
 const prevRecord = {
   institutions: [
@@ -102,31 +89,10 @@ const prevRecord = {
   ],
 };
 
-export function RecordForm({ onSubmit }) {
-  // TODO check naming conventions for submitAction server action
-  const isClient = typeof window !== "undefined";
-
+export function AssetContainerDecorator({ children }) {
   const formMethods = useForm({
     defaultValues: prevRecord,
   });
 
-  return (
-    <FormProvider {...formMethods}>
-      <form className={classes.RecordForm} /* action={onSubmit} */>
-        <FormHeader
-          text="New Record"
-          rightButtons={
-            <>
-              <Button variant="outline">Cancel</Button>
-              <Button>Save</Button>
-            </>
-          }
-        />
-        <InstitutionsList institutions={prevRecord.institutions} />
-      </form>
-      <Button onClick={() => console.log(formMethods.getValues())}>
-        console.log form data
-      </Button>
-    </FormProvider>
-  );
+  return <FormProvider {...formMethods}>{children}</FormProvider>;
 }

@@ -1,3 +1,18 @@
+/* 
+Component represent the instance of asset inside of the institution.
+Fields
+  {
+    amount: number,
+    currency: string,
+    description: string,
+    isEarning: bool,
+  }
+Listeners
+  deleteAssetButton
+Output
+  expanded or compact variant
+*/
+
 "use client";
 
 import {
@@ -11,30 +26,29 @@ import {
   Checkbox,
   IconButton,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { useFormContext } from "react-hook-form";
 
-export default function AssetContainer({ asset, isExpanded }) {
-  const [amount, setAmount] = useState(0);
-  const numFormat = (val) => val.toLocaleString();
-  const parse = (val) => Number(val.replace(/^\$/, ""));
+// TODO format registered number input
+// TODO format currency to all caps
+// TODO currency validation and autocomplete based on external API
+export function AssetContainer({
+  assetName,
+  isCompact = false,
+  onDeleteAsset,
+}) {
+  const { register } = useFormContext();
 
-  // TODO what is better way to structur component with 2 very different ui states?
   const amountInput = (
     <HStack align="end" spacing={1} flex={1}>
       <FormControl>
-        {isExpanded && <FormLabel>Amount</FormLabel>}
-        <NumberInput
-          onChange={(val) => setAmount(parse(val))}
-          value={numFormat(asset?.amount ?? 0)}
-          name="amount"
-        >
-          <NumberInputField px={2} />
+        {isCompact || <FormLabel>Amount</FormLabel>}
+        <NumberInput>
+          <NumberInputField {...register(`${assetName}.amount`)} px={2} />
         </NumberInput>
       </FormControl>
       <Input
-        name="currency"
-        value={asset?.currency ?? ""}
+        {...register(`${assetName}.currency`)}
         placeholder="USD"
         flexShrink={0}
         w={14}
@@ -47,30 +61,29 @@ export default function AssetContainer({ asset, isExpanded }) {
     <VStack align="start" spacing={3} w="100%">
       <HStack w="100%" align="end" spacing={4}>
         {amountInput}
-        {isExpanded && (
-          <Checkbox
-            defaultChecked={asset?.isEarning ?? false}
-            name="isEarning"
-            h={10}
-            size="lg"
-          >
+        {isCompact || (
+          <Checkbox {...register(`${assetName}.isEarning`)} h={10} size="lg">
             Earning
           </Checkbox>
         )}
         <IconButton
+          onClick={onDeleteAsset}
           variant="ghost"
           aria-label="Delete asset"
           icon={<DeleteIcon />}
         />
       </HStack>
-      {isExpanded && (
+
+      {isCompact || (
         <FormControl>
-          <FormLabel value={asset?.description ?? ""} name="description">
-            Description
-          </FormLabel>
-          <Input px={2} />
+          <FormLabel>Description</FormLabel>
+          <Input {...register(`${assetName}.description`)} px={2} />
         </FormControl>
       )}
     </VStack>
   );
 }
+
+// const [amount, setAmount] = useState(0);
+// const numFormat = (val) => val.toLocaleString();
+// const parse = (val) => Number(val.replace(/^\$/, ""));

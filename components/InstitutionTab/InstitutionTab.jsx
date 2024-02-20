@@ -1,3 +1,5 @@
+"use client";
+
 import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
 import classes from "./InstitutionTab.module.css";

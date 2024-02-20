@@ -1,4 +1,5 @@
 "use client";
+
 import theme from "./ChakraTheme.js";
 import { ChakraProvider } from "@chakra-ui/react";
 

@@ -29,6 +29,7 @@ function InstitutionsList({
         {institutions.map((institution, index) => (
           <TabPanel p={0} key={"tab-panel-" + index} h="100%">
             <InstitutionContainer
+              institutionId={index}
               isExpanded={isExpanded}
               institution={institution}
             />
