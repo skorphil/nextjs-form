@@ -89,10 +89,15 @@ const prevRecord = {
   ],
 };
 
-export function AssetContainerDecorator({ children }) {
-  const formMethods = useForm({
-    defaultValues: prevRecord,
-  });
+export function FormProviderDecorator({ children }) {
+  const formMethods = {
+    ...useForm({
+      defaultValues: prevRecord,
+    }),
+    handlers: {
+      handleInstitutionOpen: false,
+    },
+  };
 
   return <FormProvider {...formMethods}>{children}</FormProvider>;
 }

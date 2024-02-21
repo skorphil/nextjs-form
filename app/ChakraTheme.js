@@ -25,6 +25,13 @@ const config = {
 
 const theme = extendTheme({
   config,
+  semanticTokens: {
+    colors: {
+      "chakra-body-bg": {
+        _dark: "gray.900",
+      },
+    },
+  },
   components: {
     Tabs: tabsVariant,
   },

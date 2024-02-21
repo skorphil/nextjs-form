@@ -1,14 +1,14 @@
 import { AssetContainer } from "~/AssetContainer";
-import { AssetContainerDecorator } from "./AssetContainerDecorator";
+import { FormProviderDecorator } from "stories/FormProviderDecorator";
 
 const meta = {
   title: "RecordForm/AssetContainer",
   component: AssetContainer,
   decorators: [
     (Story, { args }) => (
-      <AssetContainerDecorator>
+      <FormProviderDecorator>
         <Story />
-      </AssetContainerDecorator>
+      </FormProviderDecorator>
     ),
   ],
 };

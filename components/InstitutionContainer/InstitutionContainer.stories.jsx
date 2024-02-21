@@ -1,81 +1,29 @@
-import { InstitutionContainer } from "./InstitutionContainer";
+import { FormProviderDecorator } from "stories/FormProviderDecorator";
+import { InstitutionContainer } from "~/InstitutionContainer";
 
 const meta = {
   title: "RecordForm/InstitutionContainer",
   component: InstitutionContainer,
+  decorators: [
+    (Story, { args }) => (
+      <FormProviderDecorator>
+        <Story />
+      </FormProviderDecorator>
+    ),
+  ],
 };
 export default meta;
 
 export const Collapsed = {
   args: {
-    isExpanded: false,
-    institution: {
-      name: "City Bank",
-      country: "fr",
-      assets: [
-        {
-          amount: 10000,
-          currency: "usd",
-          isEarning: false,
-          description: "My Visa debit card",
-        },
-        {
-          amount: 300000,
-          currency: "eur",
-          isEarning: true,
-          description: "My Deposit",
-        },
-        {
-          amount: 1000,
-          currency: "cny",
-          isEarning: true,
-          description: "",
-        },
-        {
-          amount: 5000,
-          currency: "chf",
-          isEarning: false,
-          description: "",
-        },
-      ],
-    },
-    assetContainer: null,
+    isInstitutionOpen: false,
+    institutionName: "institutions.0",
   },
 };
 
-export const Expanded = {
+export const Fullscreen = {
   args: {
-    isExpanded: true,
-    institution: {
-      name: "City Bank",
-      country: "fr",
-      assets: [
-        {
-          amount: 10000,
-          currency: "usd",
-          isEarning: false,
-          description: "My Visa debit card",
-        },
-        {
-          amount: 300000,
-          currency: "eur",
-          isEarning: true,
-          description: "My Deposit",
-        },
-        {
-          amount: 1000,
-          currency: "cny",
-          isEarning: true,
-          description: "",
-        },
-        {
-          amount: 5000,
-          currency: "chf",
-          isEarning: false,
-          description: "",
-        },
-      ],
-    },
-    assetContainer: null,
+    isInstitutionOpen: true,
+    institutionName: "institutions.0",
   },
 };
