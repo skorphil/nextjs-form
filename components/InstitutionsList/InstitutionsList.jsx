@@ -5,14 +5,16 @@ import { InstitutionContainer } from "../InstitutionContainer";
 import { Tabs, TabPanels, TabPanel } from "@chakra-ui/react";
 import { useVisualViewportSize } from "../../app/hooks";
 import classes from "./InstitutionsList.module.css";
+import { useFieldArray } from "react-hook-form";
 
-function InstitutionsList({
-  institutions,
-  isExpanded,
-  simulateKeyboard = false,
-}) {
+function InstitutionsList({ simulateKeyboard = false, isIntitutionOpen }) {
   const { height } = useVisualViewportSize();
   const isKeyboardOpened = simulateKeyboard || height < 650;
+
+  const arrayName = `institutions`;
+  const { fields: institutions, remove } = useFieldArray({
+    name: arrayName,
+  });
 
   return (
     <Tabs
@@ -23,20 +25,22 @@ function InstitutionsList({
       // display="flex"
       // flexDir="column"
       variant="grid"
-      padding={isExpanded || 2}
+      padding={isIntitutionOpen || 2}
     >
       <TabPanels flexGrow={1} flexShrink={1} minH="200px">
         {institutions.map((institution, index) => (
-          <TabPanel p={0} key={"tab-panel-" + index} h="100%">
+          <TabPanel p={0} key={institution.id} h="100%">
             <InstitutionContainer
-              institutionId={index}
-              isExpanded={isExpanded}
-              institution={institution}
+              institutionName={`institutions.${index}`}
+              isInstitutionOpen={isIntitutionOpen}
+              // institutionId={index}
+              // isExpanded={isExpanded}
+              // institution={institution}
             />
           </TabPanel>
         ))}
       </TabPanels>
-      {isExpanded || (
+      {isIntitutionOpen || (
         <InstitutionsTabsList
           simulateKeyboard={isKeyboardOpened}
           institutions={institutions}

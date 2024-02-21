@@ -7,8 +7,9 @@ Root element of the form
 import { useForm, FormProvider } from "react-hook-form";
 
 import classes from "./RecordForm.module.css";
-import { Input, Button, Checkbox } from "@chakra-ui/react";
+import { Button, IconButton } from "@chakra-ui/react";
 import { useState } from "react";
+import { CgMinimizeAlt } from "react-icons/cg";
 
 import { InstitutionsList } from "../InstitutionsList";
 import { FormHeader } from "~/FormHeader";
@@ -105,28 +106,42 @@ const prevRecord = {
 export function RecordForm({ onSubmit }) {
   // TODO check naming conventions for submitAction server action
   const isClient = typeof window !== "undefined";
+  const [isIntitutionOpen, setIsInstitutionOpen] = useState(false);
 
-  const formMethods = useForm({
-    defaultValues: prevRecord,
-  });
+  const handleInstitutionOpen = () => {
+    setIsInstitutionOpen((val) => !val);
+  };
+
+  const formMethods = {
+    ...useForm({
+      defaultValues: prevRecord,
+    }),
+    handlers: {
+      handleInstitutionOpen: handleInstitutionOpen,
+    },
+  };
 
   return (
     <FormProvider {...formMethods}>
       <form className={classes.RecordForm} /* action={onSubmit} */>
-        <FormHeader
-          text="New Record"
-          rightButtons={
-            <>
-              <Button variant="outline">Cancel</Button>
-              <Button>Save</Button>
-            </>
-          }
+        {isIntitutionOpen || (
+          <FormHeader
+            text="New Record"
+            rightButtons={
+              <>
+                <Button variant="outline">Cancel</Button>
+                <Button onClick={() => console.log(formMethods.getValues())}>
+                  Save
+                </Button>
+              </>
+            }
+          />
+        )}
+        <InstitutionsList
+          isIntitutionOpen={isIntitutionOpen}
+          // institutions={prevRecord.institutions}
         />
-        <InstitutionsList institutions={prevRecord.institutions} />
       </form>
-      <Button onClick={() => console.log(formMethods.getValues())}>
-        console.log form data
-      </Button>
     </FormProvider>
   );
 }

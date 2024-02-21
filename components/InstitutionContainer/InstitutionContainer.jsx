@@ -12,54 +12,75 @@ import {
   HStack,
   Button,
   ButtonGroup,
+  Box,
 } from "@chakra-ui/react";
 import { AssetContainer } from "~/AssetContainer";
-import { CgMinimizeAlt } from "react-icons/cg";
-import { motion } from "framer-motion";
+import { CgMinimizeAlt, CgPen } from "react-icons/cg";
 import { useFormContext, useFieldArray } from "react-hook-form";
-import { institutionTabStyle } from "~/InstitutionTab";
+import { FormHeader } from "~/FormHeader";
 
-export function InstitutionContainer({
-  institution,
-  assetContainer,
-  institutionId,
-  isExpanded,
-}) {
+// TODO fixed header
+// TODO Fix keyboard openLayout
+// TODO Update stories to suit use-form
+export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
+  const { getValues, handlers: formHandlers } = useFormContext();
+
   return (
-    <>
+    <VStack
+      bg="gray.800"
+      borderRadius={isInstitutionOpen || "lg"}
+      h="fit-content"
+      minHeight="100%"
+    >
+      {isInstitutionOpen && (
+        <Box
+          borderBottom="1px"
+          borderColor="whiteAlpha.200"
+          bg="gray.800"
+          position="fixed"
+          w="100%"
+          zIndex={1300}
+        >
+          <FormHeader
+            text="Edit Institution"
+            rightButtons={
+              <IconButton
+                onClick={formHandlers.handleInstitutionOpen}
+                variant="solid"
+                aria-label="Minimize institution form"
+                icon={<CgMinimizeAlt />}
+              />
+            }
+          />
+        </Box>
+      )}
       <VStack
+        marginTop={isInstitutionOpen && 16}
         flexGrow={1}
-        // transition="2s linear"
-        // as={motion.div}
-        layout
+        w="100%"
         alignItems="start"
-        pos="relative"
-        spacing={isExpanded ? 8 : 4}
-        borderRadius={isExpanded || "lg"}
-        padding={isExpanded ? 2 : 3}
-        bg="whiteAlpha.50"
         h="100%"
-        minHeight={isExpanded && "100vh"}
+        spacing={isInstitutionOpen ? 8 : 2}
+        padding={isInstitutionOpen ? 2 : 3}
       >
-        {isExpanded || (
-          <Heading flexShrink={0} size="sm">
-            {institution.name}
-          </Heading>
+        {isInstitutionOpen || (
+          <CompactHeader
+            onEdit={formHandlers.handleInstitutionOpen}
+            text={getValues(`${institutionName}.name`)}
+          />
         )}
-        {isExpanded && (
+        {isInstitutionOpen && (
           <HStack w="100%" align="end" spacing={3}>
-            <InstitutionNameInput />
-            <InstitutionCountryInput />
+            <InstitutionNameInput institutionName={institutionName} />
+            <InstitutionCountryInput institutionName={institutionName} />
           </HStack>
         )}
-        <AssetsList isExpanded={isExpanded} institutionId={institutionId} />
-        {isExpanded || (
-          <Button flexShrink={0} variant="outline" w="100%">
-            Edit
-          </Button>
-        )}
+        <AssetsList
+          isInstitutionOpen={isInstitutionOpen}
+          institutionName={institutionName}
+        />
       </VStack>
-    </>
+    </VStack>
   );
 }
 
@@ -86,18 +107,23 @@ const ExpandedHeader = () => {
   );
 };
 
-const AssetsList = ({ isExpanded, institutionId }) => {
-  const arrayName = `institutions.${institutionId}.assets`;
-  const { fields: assets, remove } = useFieldArray({
+const AssetsList = ({ isInstitutionOpen, institutionName }) => {
+  const arrayName = `${institutionName}.assets`;
+  const {
+    fields: assets,
+    remove,
+    append,
+  } = useFieldArray({
     name: arrayName,
   });
+  const { resetField } = useFormContext();
+
   return (
     <VStack
-      height="100%"
-      // maxHeight={isExpanded ? false : "166px"}
+      p="1px"
       w="100%"
       overflow="auto"
-      spacing={isExpanded ? 6 : 2}
+      spacing={isInstitutionOpen ? 6 : 2}
       align="start"
     >
       {assets.map((asset, index) => (
@@ -105,17 +131,30 @@ const AssetsList = ({ isExpanded, institutionId }) => {
           key={asset.id}
           onDeleteAsset={() => remove(index)}
           assetName={`${arrayName}.${index}`}
-          isExpanded={isExpanded}
-          // asset={asset}
+          isCompact={!isInstitutionOpen}
         />
       ))}
 
-      {isExpanded && (
+      {isInstitutionOpen && (
         <>
-          <Button flexShrink={0}>Add Asset</Button>
+          <Button
+            onClick={() =>
+              append({
+                amount: "",
+                currency: "",
+                isEarning: false,
+                description: "",
+              })
+            }
+            flexShrink={0}
+          >
+            Add Asset
+          </Button>
           <ButtonGroup alignSelf="end">
             <Button variant="outline">Delete</Button>
-            <Button variant="outline">Reset</Button>
+            <Button onClick={() => resetField(arrayName)} variant="outline">
+              Reset
+            </Button>
           </ButtonGroup>
         </>
       )}
@@ -123,20 +162,47 @@ const AssetsList = ({ isExpanded, institutionId }) => {
   );
 };
 
-const InstitutionNameInput = ({ name }) => {
+const InstitutionNameInput = ({ institutionName }) => {
+  const { register } = useFormContext();
   return (
     <FormControl>
-      <FormLabel name="institutionName">Institution Name</FormLabel>
-      <Input px={2} w="100%" />
+      <FormLabel>Institution Name</FormLabel>
+      <Input
+        disabled={true}
+        {...register(`${institutionName}.name`, {})}
+        px={2}
+        w="100%"
+      />
     </FormControl>
   );
 };
 
-const InstitutionCountryInput = ({ country }) => {
+const InstitutionCountryInput = ({ institutionName }) => {
+  const { register } = useFormContext();
   return (
     <FormControl w={20}>
-      <FormLabel name="institutionName">Country</FormLabel>
-      <Input px={2} />
+      <FormLabel>Country</FormLabel>
+      <Input
+        disabled={true}
+        {...register(`${institutionName}.country`, {})}
+        px={2}
+      />
     </FormControl>
+  );
+};
+
+const CompactHeader = ({ text, onEdit }) => {
+  return (
+    <HStack justifyContent="space-between" w="100%">
+      <Heading flexShrink={0} size="sm">
+        {text}
+      </Heading>
+      <IconButton
+        onClick={onEdit}
+        variant="ghost"
+        aria-label="Edit institution"
+        icon={<CgPen />}
+      />
+    </HStack>
   );
 };

@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Heading, HStack } from "@chakra-ui/react";
 
 export function FormHeader({ rightButtons, text }) {
   return (
-    <HStack gap={4} p={2} justifyContent="space-between">
+    <HStack w="100%" gap={4} p={2} justifyContent="space-between">
       <Heading
         textOverflow="ellipsis"
         overflow="hidden"
