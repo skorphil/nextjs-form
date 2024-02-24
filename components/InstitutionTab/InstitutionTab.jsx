@@ -7,7 +7,10 @@ import classes from "./InstitutionTab.module.css";
 
 export const InstitutionTab = forwardRef(
   ({ isDeleted = false, institutionName, ...props }, ref) => {
-    const { formState, getValues, control } = useFormContext();
+    const { formState, getValues, control, institutionsFieldArray } =
+      useFormContext();
+    const institutionFields =
+      institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
     const institutionDefaultValues =
       formState.defaultValues.institutions[
         getInstitutionIndex(institutionName)
@@ -16,11 +19,13 @@ export const InstitutionTab = forwardRef(
     const isChanged =
       JSON.stringify(institutionDefaultValues) !==
       JSON.stringify(institutionCurrentValues);
-    const state = isChanged ? "updated" : null;
-    const name = useWatch({
-      control,
-      name: `${institutionName}.name`,
-    });
+    const isNew = institutionFields.name === "";
+    const state = isNew ? "new" : isChanged ? "updated" : null;
+    const name =
+      useWatch({
+        control,
+        name: `${institutionName}.name`,
+      }) || "New Institution";
 
     return (
       <Tab

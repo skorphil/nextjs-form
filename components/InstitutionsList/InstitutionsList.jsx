@@ -5,45 +5,45 @@ import { InstitutionContainer } from "../InstitutionContainer";
 import { Tabs, TabPanels, TabPanel } from "@chakra-ui/react";
 import { useVisualViewportSize } from "../../app/hooks";
 import classes from "./InstitutionsList.module.css";
-import { useFieldArray } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
-function InstitutionsList({ simulateKeyboard = false, isIntitutionOpen }) {
+function InstitutionsList({
+  simulateKeyboard = false,
+  isInstitutionOpen,
+  selectedInstitution,
+}) {
   const { height } = useVisualViewportSize();
   const isKeyboardOpened = simulateKeyboard || height < 650;
-
-  const arrayName = `institutions`;
-  const { fields: institutions, remove } = useFieldArray({
-    name: arrayName,
-  });
+  const {
+    institutionsFieldArray: { fields: institutions },
+    handlers: { handleInstitutionCreate, handleTabsChange },
+  } = useFormContext();
 
   return (
     <Tabs
       flexGrow={1}
       minH="200px"
-      // className={classes.institutionsList}
+      index={selectedInstitution}
+      onChange={handleTabsChange}
       h="100%"
-      // display="flex"
-      // flexDir="column"
       variant="grid"
-      padding={isIntitutionOpen || 2}
+      padding={isInstitutionOpen || 2}
     >
       <TabPanels flexGrow={1} flexShrink={1} minH="200px">
         {institutions.map((institution, index) => (
           <TabPanel p={0} key={institution.id} h="100%">
             <InstitutionContainer
               institutionName={`institutions.${index}`}
-              isInstitutionOpen={isIntitutionOpen}
-              // institutionId={index}
-              // isExpanded={isExpanded}
-              // institution={institution}
+              isInstitutionOpen={isInstitutionOpen}
             />
           </TabPanel>
         ))}
       </TabPanels>
-      {isIntitutionOpen || (
+      {isInstitutionOpen || (
         <InstitutionsTabsList
           simulateKeyboard={isKeyboardOpened}
-          institutions={institutions}
+          institutionsArray={institutions}
+          onCreateInstitution={handleInstitutionCreate}
         />
       )}
     </Tabs>
