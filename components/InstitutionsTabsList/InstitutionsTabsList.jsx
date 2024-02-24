@@ -3,24 +3,19 @@
 // TODO fix animation framer https://github.com/skorphil/nextjs-form/issues/25
 
 import { InstitutionTab } from "../InstitutionTab";
-import {
-  Tabs,
-  TabList,
-  Heading,
-  Button,
-  Box,
-  IconButton,
-} from "@chakra-ui/react";
+import { TabList, Heading, Button, Box, IconButton } from "@chakra-ui/react";
 
 import classes from "./InstitutionsTabsList.module.css";
 import { CgMathPlus } from "react-icons/cg";
 import { useVisualViewportSize } from "../../app/hooks";
 import { motion } from "framer-motion";
+import { useFormContext } from "react-hook-form";
 
-export function InstitutionsTabsList({
-  institutions,
-  simulateKeyboard = false,
-}) {
+export function InstitutionsTabsList({ simulateKeyboard = false }) {
+  const {
+    institutionsFieldArray: { fields: institutions },
+    handlers: { handleInstitutionCreate },
+  } = useFormContext();
   const { height } = useVisualViewportSize();
   const isKeyboardOpened =
     simulateKeyboard || (window.innerHeight - height > 200 ? true : false);
@@ -38,39 +33,45 @@ export function InstitutionsTabsList({
           key="tablist"
           className={`${classes.grid} ${isKeyboardOpened ? classes.collapsed : classes.expanded}`}
         >
-          {institutions.map((institution, id) => (
+          {institutions.map((institution, index) => (
             <InstitutionTab
-              // transition="2s linear"
-              // as={motion.div}
-              // layout="position"
               width={isKeyboardOpened && "180px"}
-              institutionName={`institutions.${id}`}
-              key={`institutionTab-${id}`}
-              name={institution.name}
-              state="new"
+              institutionName={`institutions.${index}`}
+              key={institution.id}
             />
           ))}
-          {isKeyboardOpened
-            ? newInstitutionButtonCollapsed
-            : newInstitutionButtonExpanded}
+          {isKeyboardOpened ? (
+            <NewInstitutionButtonCollapsed
+              onCreateInstitution={handleInstitutionCreate}
+            />
+          ) : (
+            <NewInstitutionButtonExpanded
+              onCreateInstitution={handleInstitutionCreate}
+            />
+          )}
         </TabList>
       </Box>
     </Box>
   );
 }
 
-const newInstitutionButtonExpanded = (
-  <Button variant="outline">
-    <Box as="span" overflow="hidden">
-      Add institution
-    </Box>
-  </Button>
-);
+function NewInstitutionButtonExpanded({ onCreateInstitution }) {
+  return (
+    <Button variant="outline" onClick={onCreateInstitution}>
+      <Box as="span" overflow="hidden">
+        Add institution
+      </Box>
+    </Button>
+  );
+}
 
-const newInstitutionButtonCollapsed = (
-  <IconButton
-    variant="outline"
-    aria-label="Add institution"
-    icon={<CgMathPlus />}
-  />
-);
+function NewInstitutionButtonCollapsed({ onCreateInstitution }) {
+  return (
+    <IconButton
+      onClick={onCreateInstitution}
+      variant="outline"
+      aria-label="Add institution"
+      icon={<CgMathPlus />}
+    />
+  );
+}

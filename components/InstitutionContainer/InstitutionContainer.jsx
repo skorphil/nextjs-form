@@ -23,6 +23,7 @@ import { FormHeader } from "~/FormHeader";
 // TODO Fix keyboard openLayout
 // TODO Update stories to suit use-form
 export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
+  // console.log("InstitutionContainer Rendered");
   const { getValues, handlers: formHandlers } = useFormContext();
 
   return (
@@ -109,6 +110,7 @@ const ExpandedHeader = () => {
 
 const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   const arrayName = `${institutionName}.assets`;
+  // console.log("AssetsList rendered");
   const {
     fields: assets,
     remove,
@@ -118,12 +120,8 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   });
   const {
     resetField,
-    getValues,
-    formState: { isDirty, dirtyFields, defaultValues },
+    formState: { dirtyFields, defaultValues },
   } = useFormContext();
-  // const { fields: institutionFields } = useFieldArray({
-  //   name: "institutions.0.assets.0",
-  // });
 
   return (
     <VStack
