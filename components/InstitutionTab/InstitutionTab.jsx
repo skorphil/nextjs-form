@@ -2,23 +2,38 @@
 
 import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
+import { useFormContext, useWatch } from "react-hook-form";
 import classes from "./InstitutionTab.module.css";
 
 export const InstitutionTab = forwardRef(
-  (
-    { name = "Unnamed institution", isDeleted = false, state = null, ...props },
-    ref
-  ) => (
-    <Tab
-      isDisabled={isDeleted}
-      className={`${classes.tab} ${isDeleted && classes.deleted}`}
-      ref={ref}
-      {...props}
-    >
-      <Box className={classes.tabName}>{name}</Box>
-      <TabRightSection state={state} isDeleted={isDeleted} />
-    </Tab>
-  )
+  ({ isDeleted = false, institutionName, ...props }, ref) => {
+    const { formState, getValues, control } = useFormContext();
+    const institutionDefaultValues =
+      formState.defaultValues.institutions[
+        getInstitutionIndex(institutionName)
+      ];
+    const institutionCurrentValues = getValues(institutionName);
+    const isChanged =
+      JSON.stringify(institutionDefaultValues) !==
+      JSON.stringify(institutionCurrentValues);
+    const state = isChanged ? "updated" : null;
+    const name = useWatch({
+      control,
+      name: `${institutionName}.name`,
+    });
+
+    return (
+      <Tab
+        isDisabled={isDeleted}
+        className={`${classes.tab} ${isDeleted && classes.deleted}`}
+        ref={ref}
+        {...props}
+      >
+        <Box className={classes.tabName}>{name}</Box>
+        <TabRightSection state={state} isDeleted={isDeleted} />
+      </Tab>
+    );
+  }
 );
 
 function TabRightSection({ state, isDeleted }) {
@@ -38,4 +53,9 @@ function TabRightSection({ state, isDeleted }) {
       </Box>
     );
   } else return false;
+}
+
+function getInstitutionIndex(institutionName) {
+  const index = parseInt(institutionName.split(".")[1]);
+  return index;
 }

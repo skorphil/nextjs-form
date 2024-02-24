@@ -116,7 +116,14 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   } = useFieldArray({
     name: arrayName,
   });
-  const { resetField } = useFormContext();
+  const {
+    resetField,
+    getValues,
+    formState: { isDirty, dirtyFields, defaultValues },
+  } = useFormContext();
+  // const { fields: institutionFields } = useFieldArray({
+  //   name: "institutions.0.assets.0",
+  // });
 
   return (
     <VStack
@@ -134,6 +141,14 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
           isCompact={!isInstitutionOpen}
         />
       ))}
+      {/* TEST HERE */}
+      <Button onClick={() => console.log("assets:", assets)}>Log assets</Button>
+      <Button onClick={() => console.log("dirtyFields:", dirtyFields)}>
+        Log dirty
+      </Button>
+      <Button onClick={() => console.log(defaultValues.institutions[0])}>
+        getValues
+      </Button>
 
       {isInstitutionOpen && (
         <>
@@ -169,7 +184,9 @@ const InstitutionNameInput = ({ institutionName }) => {
       <FormLabel>Institution Name</FormLabel>
       <Input
         disabled={true}
-        {...register(`${institutionName}.name`, {})}
+        {...register(`${institutionName}.name`, {
+          // disabled: true, // Not showing it inside header with `getValues` or `watch`.
+        })}
         px={2}
         w="100%"
       />
