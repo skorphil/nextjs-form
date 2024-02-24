@@ -44,6 +44,7 @@ export function InstitutionsTabsList({
               // as={motion.div}
               // layout="position"
               width={isKeyboardOpened && "180px"}
+              institutionName={`institutions.${id}`}
               key={`institutionTab-${id}`}
               name={institution.name}
               state="new"

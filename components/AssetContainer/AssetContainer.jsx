@@ -37,18 +37,28 @@ export function AssetContainer({
   isCompact = false,
   onDeleteAsset,
 }) {
-  const { register } = useFormContext();
+  const { register, setValue, getFieldState, formState } = useFormContext();
+  // const { isDirty } = getFieldState(`${assetName}`, formState);
 
   const amountInput = (
     <HStack align="end" spacing={1} flex={1}>
+      {/* <p>{`fieldState: ${isDirty}`}</p> */}
       <FormControl>
         {isCompact || <FormLabel>Amount</FormLabel>}
         <NumberInput>
-          <NumberInputField {...register(`${assetName}.amount`)} px={2} />
+          <NumberInputField
+            {...register(`${assetName}.amount`, { valueAsNumber: true })}
+            px={2}
+          />
         </NumberInput>
       </FormControl>
       <Input
-        {...register(`${assetName}.currency`)}
+        {...register(`${assetName}.currency`, {
+          onChange: (e) => {
+            const upperCaseValue = e.target.value.toUpperCase();
+            setValue(`${assetName}.currency`, upperCaseValue);
+          },
+        })}
         placeholder="USD"
         flexShrink={0}
         w={14}

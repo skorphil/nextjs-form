@@ -13,6 +13,7 @@ import { CgMinimizeAlt } from "react-icons/cg";
 
 import { InstitutionsList } from "../InstitutionsList";
 import { FormHeader } from "~/FormHeader";
+import { DevTool } from "@hookform/devtools";
 
 const prevRecord = {
   institutions: [
@@ -142,6 +143,7 @@ export function RecordForm({ onSubmit }) {
           // institutions={prevRecord.institutions}
         />
       </form>
+      <DevTool control={formMethods.control} />
     </FormProvider>
   );
 }
