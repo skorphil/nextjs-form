@@ -4,18 +4,113 @@ import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
 import { useFormContext, useWatch } from "react-hook-form";
 import classes from "./InstitutionTab.module.css";
+const defaultValues = {
+  institutions: [
+    {
+      name: "City Bank",
+      country: "it",
+      isDeleted: false,
+      assets: [
+        {
+          amount: 10000,
+          currency: "usd",
+          isEarning: false,
+          description: "My Visa debit card",
+        },
+        {
+          amount: 300000,
+          currency: "eur",
+          isEarning: true,
+          description: "My Deposit",
+        },
+        {
+          amount: 1000,
+          currency: "cny",
+          isEarning: true,
+          description: "",
+        },
+        {
+          amount: 5000,
+          currency: "chf",
+          isEarning: false,
+          description: "",
+        },
+      ],
+    },
+    {
+      name: "Wells & Fargo",
+      country: "",
+      isDeleted: false,
+      assets: [
+        {
+          amount: 6443,
+          currency: "brl",
+          isEarning: false,
+          description: "Debit card",
+        },
+        {
+          amount: 8765,
+          currency: "eur",
+          isEarning: true,
+          description: "My Deposit",
+        },
+        {
+          amount: 1234,
+          currency: "cny",
+          isEarning: true,
+          description: "",
+        },
+      ],
+    },
+    {
+      name: "Bank Of America",
+      country: "",
+      isDeleted: false,
+      assets: [
+        {
+          amount: 1700,
+          currency: "usd",
+          isEarning: false,
+          description: "My Visa debit card",
+        },
+        {
+          amount: 376000,
+          currency: "usd",
+          isEarning: true,
+          description: "My Deposit",
+        },
+      ],
+    },
+    {
+      name: "Raiffeisen Bank",
+      country: "",
+      isDeleted: false,
+      assets: [
+        {
+          amount: 888,
+          currency: "usd",
+          isEarning: false,
+          description: "My Visa debit card",
+        },
+      ],
+    },
+  ],
+};
 
 export const InstitutionTab = forwardRef(
-  ({ isDeleted = false, institutionName, ...props }, ref) => {
-    const { formState, getValues, control, institutionsFieldArray } =
-      useFormContext();
+  ({ institutionName, ...props }, ref) => {
+    const {
+      // formState: { defaultValues },
+      control,
+      watch,
+      institutionsFieldArray,
+    } = useFormContext();
     const institutionFields =
       institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
     const institutionDefaultValues =
-      formState.defaultValues.institutions[
-        getInstitutionIndex(institutionName)
-      ];
-    const institutionCurrentValues = getValues(institutionName);
+      defaultValues.institutions[getInstitutionIndex(institutionName)];
+    const isDeleted = watch(`${institutionName}.isDeleted`);
+    const institutionCurrentValues = watch(institutionName);
     const isChanged =
       JSON.stringify(institutionDefaultValues) !==
       JSON.stringify(institutionCurrentValues);
@@ -30,6 +125,7 @@ export const InstitutionTab = forwardRef(
     return (
       <Tab
         isDisabled={isDeleted}
+        as={isDeleted && "div"}
         className={`${classes.tab} ${isDeleted && classes.deleted}`}
         ref={ref}
         {...props}
@@ -49,6 +145,10 @@ function TabRightSection({ state, isDeleted }) {
         variant="ghost"
         aria-label="Restore institution"
         icon={<CgUndo className={classes.deleteIcon} />}
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log("restore");
+        }}
       />
     );
   } else if (state === "updated" || state === "new") {

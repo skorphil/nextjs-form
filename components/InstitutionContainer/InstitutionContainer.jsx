@@ -24,7 +24,8 @@ import { FormHeader } from "~/FormHeader";
 // TODO Update stories to suit use-form
 export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
   // console.log("InstitutionContainer Rendered");
-  const { getValues, handlers: formHandlers } = useFormContext();
+  const { getValues, handlers: formHandlers = { handleInstitutionOpen } } =
+    useFormContext();
 
   return (
     <VStack
@@ -110,6 +111,7 @@ const ExpandedHeader = () => {
 
 const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   const arrayName = `${institutionName}.assets`;
+  const institutionIndex = parseInt(institutionName.split(".")[1]);
   // console.log("AssetsList rendered");
   const {
     fields: assets,
@@ -120,7 +122,10 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   });
   const {
     resetField,
-    formState: { dirtyFields, defaultValues },
+    getValues, // for testing
+    setValue, // for testing
+    handlers: { handleInstitutionDelete },
+    // formState: { defaultValues },
   } = useFormContext();
 
   return (
@@ -131,6 +136,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
       spacing={isInstitutionOpen ? 6 : 2}
       align="start"
     >
+      {/* {getValues(`${institutionName}.isDeleted`) && <p>deleted institution</p>} */}
       {assets.map((asset, index) => (
         <AssetContainer
           key={asset.id}
@@ -141,11 +147,17 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
       ))}
       {/* TEST HERE */}
       <Button onClick={() => console.log("assets:", assets)}>Log assets</Button>
-      <Button onClick={() => console.log("dirtyFields:", dirtyFields)}>
+      {/* <Button onClick={() => console.log("dirtyFields:", dirtyFields)}>
         Log dirty
+      </Button> */}
+      <Button onClick={() => setValue(`${institutionName}.isDeleted`, true)}>
+        set isDeleted Value
+      </Button>
+      <Button onClick={() => console.log(getValues(`${institutionName}`))}>
+        get institution Values
       </Button>
       <Button onClick={() => console.log(defaultValues.institutions[0])}>
-        getValues
+        get DefaultValues of institution
       </Button>
 
       {isInstitutionOpen && (
@@ -164,7 +176,12 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
             Add Asset
           </Button>
           <ButtonGroup alignSelf="end">
-            <Button variant="outline">Delete</Button>
+            <Button
+              variant="outline"
+              onClick={() => handleInstitutionDelete(institutionIndex)}
+            >
+              Delete
+            </Button>
             <Button onClick={() => resetField(arrayName)} variant="outline">
               Reset
             </Button>

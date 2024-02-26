@@ -1,6 +1,7 @@
 .deleted {
     text-decoration: line-through;
     color: var(--chakra-colors-gray-500);
+    /* pointer-events: none; */
 }
 
 .deleteIcon {

@@ -16,7 +16,7 @@ function InstitutionsList({
   const isKeyboardOpened = simulateKeyboard || height < 650;
   const {
     institutionsFieldArray: { fields: institutions },
-    handlers: { handleInstitutionCreate, handleTabsChange },
+    handlers: { handleInstitutionCreate, handleInstitutionSelect },
   } = useFormContext();
 
   return (
@@ -24,7 +24,7 @@ function InstitutionsList({
       flexGrow={1}
       minH="200px"
       index={selectedInstitution}
-      onChange={handleTabsChange}
+      onChange={handleInstitutionSelect}
       h="100%"
       variant="grid"
       padding={isInstitutionOpen || 2}
