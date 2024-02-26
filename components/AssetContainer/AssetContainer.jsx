@@ -37,8 +37,7 @@ export function AssetContainer({
   isCompact = false,
   onDeleteAsset,
 }) {
-  const { register, setValue, getFieldState, formState } = useFormContext();
-  // const { isDirty } = getFieldState(`${assetName}`, formState);
+  const { register, setValue } = useFormContext();
 
   const amountInput = (
     <HStack align="end" spacing={1} flex={1}>

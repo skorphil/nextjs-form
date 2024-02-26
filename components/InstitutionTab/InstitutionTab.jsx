@@ -2,34 +2,33 @@
 
 import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import classes from "./InstitutionTab.module.css";
 
 export const InstitutionTab = forwardRef(
-  ({ isDeleted = false, institutionName, ...props }, ref) => {
-    const { formState, getValues, control, institutionsFieldArray } =
-      useFormContext();
+  ({ institutionName, ...props }, ref) => {
+    const {
+      formState: { defaultValues },
+      watch,
+      institutionsFieldArray,
+    } = useFormContext();
     const institutionFields =
       institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
     const institutionDefaultValues =
-      formState.defaultValues.institutions[
-        getInstitutionIndex(institutionName)
-      ];
-    const institutionCurrentValues = getValues(institutionName);
+      defaultValues.institutions[getInstitutionIndex(institutionName)];
+    const isDeleted = watch(`${institutionName}.isDeleted`);
+    const institutionCurrentValues = watch(institutionName);
     const isChanged =
       JSON.stringify(institutionDefaultValues) !==
       JSON.stringify(institutionCurrentValues);
     const isNew = institutionFields.name === "";
     const state = isNew ? "new" : isChanged ? "updated" : null;
-    const name =
-      useWatch({
-        control,
-        name: `${institutionName}.name`,
-      }) || "New Institution";
+    const name = watch(`${institutionName}.name`) || "New Institution";
 
     return (
       <Tab
         isDisabled={isDeleted}
+        as={isDeleted && "div"}
         className={`${classes.tab} ${isDeleted && classes.deleted}`}
         ref={ref}
         {...props}
@@ -49,6 +48,10 @@ function TabRightSection({ state, isDeleted }) {
         variant="ghost"
         aria-label="Restore institution"
         icon={<CgUndo className={classes.deleteIcon} />}
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log("restore");
+        }}
       />
     );
   } else if (state === "updated" || state === "new") {

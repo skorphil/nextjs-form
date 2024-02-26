@@ -5,20 +5,21 @@ Root element of the form
 "use client";
 
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
-
 import classes from "./RecordForm.module.css";
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { InstitutionsList } from "../InstitutionsList";
+import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "~/FormHeader";
 import { DevTool } from "@hookform/devtools";
+import { handleInstitution } from "handlers";
 
 const prevRecord = {
   institutions: [
     {
       name: "City Bank",
       country: "it",
+      isDeleted: false,
       assets: [
         {
           amount: 10000,
@@ -49,6 +50,7 @@ const prevRecord = {
     {
       name: "Wells & Fargo",
       country: "",
+      isDeleted: false,
       assets: [
         {
           amount: 6443,
@@ -73,6 +75,7 @@ const prevRecord = {
     {
       name: "Bank Of America",
       country: "",
+      isDeleted: false,
       assets: [
         {
           amount: 1700,
@@ -91,6 +94,7 @@ const prevRecord = {
     {
       name: "Raiffeisen Bank",
       country: "",
+      isDeleted: false,
       assets: [
         {
           amount: 888,
@@ -104,18 +108,16 @@ const prevRecord = {
 };
 
 export function RecordForm({ onSubmit }) {
-  // check naming conventions for submitAction server action
   const isClient = typeof window !== "undefined";
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
-
+  const arrayName = "institutions";
   const { control, ...form } = useForm({
     defaultValues: prevRecord,
   });
-
   const institutionsFieldArray = useFieldArray({
     control,
-    name: `institutions`,
+    name: arrayName,
   });
 
   const formMethods = {
@@ -123,18 +125,22 @@ export function RecordForm({ onSubmit }) {
     ...form,
     institutionsFieldArray,
     handlers: {
-      handleInstitutionOpen: () => handleInstitutionOpen(setIsInstitutionOpen),
+      handleInstitutionOpen: () => setIsInstitutionOpen((val) => !val),
+      handleInstitutionSelect: (index) => setSelectedInstitutionIndex(index),
       handleInstitutionCreate: () =>
-        handleInstitutionCreate({
-          append: institutionsFieldArray.append,
-          fields: institutionsFieldArray.fields,
-          setSelectedIndex: setSelectedInstitutionIndex,
-          setIsInstitutionOpen: setIsInstitutionOpen,
+        handleInstitution.create({
+          arrayAppend: institutionsFieldArray.append,
+          arrayFields: institutionsFieldArray.fields,
+          setSelectedInstitutionIndex,
+          setIsInstitutionOpen,
         }),
-      handleTabsChange: (index) =>
-        handleTabsChange({
-          index: index,
-          setSelectedIndex: setSelectedInstitutionIndex,
+      handleInstitutionDelete: (indexToDelete) =>
+        handleInstitution.delete({
+          indexToDelete,
+          formValues: form.getValues(arrayName),
+          setSelectedInstitutionIndex,
+          setIsInstitutionOpen,
+          formSetValue: form.setValue,
         }),
     },
   };
@@ -163,38 +169,4 @@ export function RecordForm({ onSubmit }) {
       {/* <DevTool control={formMethods.control} /> */}
     </FormProvider>
   );
-}
-
-function handleInstitutionOpen(setState, value) {
-  value ? setState(value) : setState((val) => !val);
-}
-
-function handleInstitutionCreate({
-  append,
-  setSelectedIndex,
-  fields,
-  setIsInstitutionOpen,
-}) {
-  append({
-    name: "",
-    country: "",
-    assets: [
-      {
-        amount: "",
-        currency: "",
-        isEarning: false,
-        description: "",
-      },
-    ],
-  });
-  const newInstitutionIndex = fields.length;
-  handleTabsChange({
-    index: newInstitutionIndex,
-    setSelectedIndex: setSelectedIndex,
-  });
-  handleInstitutionOpen(setIsInstitutionOpen, true);
-}
-
-function handleTabsChange({ index, setSelectedIndex }) {
-  setSelectedIndex(index);
 }
