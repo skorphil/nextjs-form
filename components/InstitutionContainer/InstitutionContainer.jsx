@@ -122,10 +122,10 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   });
   const {
     resetField,
-    getValues, // for testing
-    setValue, // for testing
-    handlers: { handleInstitutionDelete },
-    // formState: { defaultValues },
+    // getValues, // for testing
+    // setValue, // for testing
+    // handlers: { handleInstitutionDelete },
+    formState: { defaultValues },
   } = useFormContext();
 
   return (
@@ -146,10 +146,10 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
         />
       ))}
       {/* TEST HERE */}
-      <Button onClick={() => console.log("assets:", assets)}>Log assets</Button>
+      {/* <Button onClick={() => console.log("assets:", assets)}>Log assets</Button>
       {/* <Button onClick={() => console.log("dirtyFields:", dirtyFields)}>
         Log dirty
-      </Button> */}
+      </Button>
       <Button onClick={() => setValue(`${institutionName}.isDeleted`, true)}>
         set isDeleted Value
       </Button>
@@ -158,7 +158,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
       </Button>
       <Button onClick={() => console.log(defaultValues.institutions[0])}>
         get DefaultValues of institution
-      </Button>
+      </Button> */}
 
       {isInstitutionOpen && (
         <>
@@ -178,7 +178,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
           <ButtonGroup alignSelf="end">
             <Button
               variant="outline"
-              onClick={() => handleInstitutionDelete(institutionIndex)}
+              // onClick={() => handleInstitutionDelete(institutionIndex)}
             >
               Delete
             </Button>

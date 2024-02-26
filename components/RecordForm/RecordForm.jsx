@@ -5,7 +5,6 @@ Root element of the form
 "use client";
 
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
-import { useMemo } from "react";
 import classes from "./RecordForm.module.css";
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
@@ -113,22 +112,17 @@ export function RecordForm({ onSubmit }) {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
   const arrayName = "institutions";
-  const { control, getValues, setValue, formState, watch, register } = useForm({
+  const { control, ...form } = useForm({
     defaultValues: prevRecord,
   });
   const institutionsFieldArray = useFieldArray({
     control,
     name: arrayName,
   });
-  const memoizedFormState = useMemo(() => formState, [formState]);
 
   const formMethods = {
     control,
-    getValues,
-    setValue,
-    watch,
-    formState,
-    register,
+    ...form,
     institutionsFieldArray,
     handlers: {
       handleInstitutionOpen: () => setIsInstitutionOpen((val) => !val),
