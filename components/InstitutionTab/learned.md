@@ -87,3 +87,8 @@ const IntitutionTab = forwardRef(
         {...props}
       >
 ```
+
+## use-hook-form `watch` vs `useWatch`
+`{ watch } = useForm()` re-rendered root component `RecordForm`, causing horrible performance. While utilising `useWatch()` allowed to re-render only component which is using it
+Reddit thread: https://www.reddit.com/r/react/comments/1b0jhii/comment/ks897ms/?context=3
+useWatch docs: https://react-hook-form.com/docs/usewatch

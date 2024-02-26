@@ -2,28 +2,32 @@
 
 import { IconButton, Tab, forwardRef, Box } from "@chakra-ui/react";
 import { CgUndo } from "react-icons/cg";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import classes from "./InstitutionTab.module.css";
 
 export const InstitutionTab = forwardRef(
   ({ institutionName, ...props }, ref) => {
     const {
       formState: { defaultValues },
-      watch,
+      control,
       institutionsFieldArray,
     } = useFormContext();
     const institutionFields =
       institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
     const institutionDefaultValues =
       defaultValues.institutions[getInstitutionIndex(institutionName)];
-    const isDeleted = watch(`${institutionName}.isDeleted`);
-    const institutionCurrentValues = watch(institutionName);
+    const institutionCurrentValues = useWatch({
+      control,
+      name: institutionName,
+    });
+    const isDeleted = institutionCurrentValues.isDeleted;
+
     const isChanged =
       JSON.stringify(institutionDefaultValues) !==
       JSON.stringify(institutionCurrentValues);
     const isNew = institutionFields.name === "";
     const state = isNew ? "new" : isChanged ? "updated" : null;
-    const name = watch(`${institutionName}.name`) || "New Institution";
+    const name = institutionCurrentValues.name || "New Institution";
 
     return (
       <Tab
