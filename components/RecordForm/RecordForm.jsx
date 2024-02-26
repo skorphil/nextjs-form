@@ -160,7 +160,7 @@ export function RecordForm({ onSubmit }) {
           selectedInstitution={selectedInstitutionIndex}
         />
       </form>
-      <DevTool control={formMethods.control} />
+      {/* <DevTool control={formMethods.control} /> */}
     </FormProvider>
   );
 }
