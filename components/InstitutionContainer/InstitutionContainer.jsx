@@ -120,13 +120,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   } = useFieldArray({
     name: arrayName,
   });
-  const {
-    resetField,
-    // getValues, // for testing
-    // setValue, // for testing
-    // handlers: { handleInstitutionDelete },
-    formState: { defaultValues },
-  } = useFormContext();
+  const { resetField } = useFormContext();
 
   return (
     <VStack
@@ -136,7 +130,6 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
       spacing={isInstitutionOpen ? 6 : 2}
       align="start"
     >
-      {/* {getValues(`${institutionName}.isDeleted`) && <p>deleted institution</p>} */}
       {assets.map((asset, index) => (
         <AssetContainer
           key={asset.id}
@@ -145,20 +138,6 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
           isCompact={!isInstitutionOpen}
         />
       ))}
-      {/* TEST HERE */}
-      {/* <Button onClick={() => console.log("assets:", assets)}>Log assets</Button>
-      {/* <Button onClick={() => console.log("dirtyFields:", dirtyFields)}>
-        Log dirty
-      </Button>
-      <Button onClick={() => setValue(`${institutionName}.isDeleted`, true)}>
-        set isDeleted Value
-      </Button>
-      <Button onClick={() => console.log(getValues(`${institutionName}`))}>
-        get institution Values
-      </Button>
-      <Button onClick={() => console.log(defaultValues.institutions[0])}>
-        get DefaultValues of institution
-      </Button> */}
 
       {isInstitutionOpen && (
         <>
@@ -178,7 +157,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
           <ButtonGroup alignSelf="end">
             <Button
               variant="outline"
-              // onClick={() => handleInstitutionDelete(institutionIndex)}
+              onClick={() => handleInstitutionDelete(institutionIndex)}
             >
               Delete
             </Button>
