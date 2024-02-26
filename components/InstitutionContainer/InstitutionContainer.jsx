@@ -120,7 +120,10 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   } = useFieldArray({
     name: arrayName,
   });
-  const { resetField } = useFormContext();
+  const {
+    resetField,
+    handlers: { handleInstitutionDelete },
+  } = useFormContext();
 
   return (
     <VStack

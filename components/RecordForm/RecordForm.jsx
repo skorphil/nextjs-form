@@ -137,10 +137,10 @@ export function RecordForm({ onSubmit }) {
       handleInstitutionDelete: (indexToDelete) =>
         handleInstitution.delete({
           indexToDelete,
-          formValues: getValues(arrayName),
+          formValues: form.getValues(arrayName),
           setSelectedInstitutionIndex,
           setIsInstitutionOpen,
-          formSetValue: setValue,
+          formSetValue: form.setValue,
         }),
     },
   };
