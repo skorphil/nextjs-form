@@ -142,6 +142,12 @@ export function RecordForm({ onSubmit }) {
           setIsInstitutionOpen,
           formSetValue: form.setValue,
         }),
+      handleInstitutionRestore: (indexToRestore) =>
+        handleInstitution.restore({
+          formSetValue: form.setValue,
+          indexToRestore,
+          setSelectedInstitutionIndex,
+        }),
     },
   };
 

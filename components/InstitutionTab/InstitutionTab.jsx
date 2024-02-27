@@ -11,6 +11,7 @@ export const InstitutionTab = forwardRef(
       formState: { defaultValues },
       control,
       institutionsFieldArray,
+      handlers: { handleInstitutionRestore },
     } = useFormContext();
     const institutionFields =
       institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
@@ -38,13 +39,19 @@ export const InstitutionTab = forwardRef(
         {...props}
       >
         <Box className={classes.tabName}>{name}</Box>
-        <TabRightSection state={state} isDeleted={isDeleted} />
+        <TabRightSection
+          onRestore={() =>
+            handleInstitutionRestore(parseInt(institutionName.split(".")[1]))
+          }
+          state={state}
+          isDeleted={isDeleted}
+        />
       </Tab>
     );
   }
 );
 
-function TabRightSection({ state, isDeleted }) {
+function TabRightSection({ onRestore, state, isDeleted }) {
   if (isDeleted) {
     return (
       <IconButton
@@ -52,10 +59,7 @@ function TabRightSection({ state, isDeleted }) {
         variant="ghost"
         aria-label="Restore institution"
         icon={<CgUndo className={classes.deleteIcon} />}
-        onClick={(e) => {
-          e.stopPropagation();
-          console.log("restore");
-        }}
+        onClick={onRestore}
       />
     );
   } else if (state === "updated" || state === "new") {

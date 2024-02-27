@@ -1,5 +1,5 @@
 /* 
-Function set use-form-hook hidden field value (`institutions[ID].isDeleted`) = false,
+Function set use-form-hook hidden field value (`institutions[ID].isDeleted`) = true,
 selects next available(not deleted) institution
 and set open state to false
 
