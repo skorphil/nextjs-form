@@ -6,11 +6,13 @@
 - isDeleted
 - isUpdated
 - text
+- onRestore
 + insitutionName (string)
-onRestore
+
 
 //Context
 + useFormContext()
++ useWatch()
 ```
 
 ### Listeners
@@ -25,12 +27,12 @@ stateDiagram-v2
     direction LR
 
 [*] --> existing
-existing --> updated : defaultValues.institution[id] != getvalues(institution.id)
-updated --> existing : defaultValues.institution[id] == getvalues(institution.id)
-updated --> deleted : prop changed
-existing --> deleted : prop changed
-deleted --> updated : BUTTON_PRESS <br/> Do / setState
-deleted --> existing : BUTTON_PRESS <br/> Do / setState
+existing --> updated : context changed
+updated --> existing : context changed
+updated --> deleted : context changed
+existing --> deleted : context changed
+deleted --> updated : BUTTON_PRESS <br/> Do / setSelectedInstitutionID, <br/> Do / setValue  
+deleted --> existing : BUTTON_PRESS <br/> Do / setSelectedInstitutionID, <br/> Do / setValue 
 [*] --> new
 ```
 
@@ -47,7 +49,8 @@ Field values can be retrieved from `fields` https://react-hook-form.com/docs/use
 if `institutions.ID.name` from `fields` === '' than institution is new
 
 #### Deleted state
-can be set by disabling institution fields??
+~~can be set by disabling institution fields??~~
+Retrieved from hidden field `isDeleted`
 
 #### Updated state
 ~~can be retrived from `isDirty`~~

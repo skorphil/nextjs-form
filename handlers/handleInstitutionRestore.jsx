@@ -1,13 +1,18 @@
-/*
-Root element of the form
-*/
-"use client";
+/* 
+Function set react-hook-form hidden field value (`institutions[ID].isDeleted`) = false,
+selects restored institution
 
-function handleInstitutionRestore({
+Requires:
+- index to restore
+- formSetValue == { getValues } = useForm()
+- access to state of RecordForm
+*/
+
+export function handleInstitutionRestore({
   indexToRestore,
-  setValue,
-  setSelectedIndex,
+  formSetValue,
+  setSelectedInstitutionIndex,
 }) {
-  setValue("institutions[institutionIndex].isDeleted", false);
-  handleTabsChange({ index: institutionIndex, setSelectedIndex });
+  formSetValue(`institutions.${indexToRestore}.isDeleted`, false);
+  setSelectedInstitutionIndex(indexToRestore);
 }
