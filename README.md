@@ -9,6 +9,7 @@ Educational project to practice React form handling.
 - npm-run-all (to run nextjs and storybook simultaneously)
 - [Comparing Schema Validation Libraries: AJV, Joi, Yup, and Zod](https://www.bitovi.com/blog/comparing-schema-validation-libraries-ajv-joi-yup-and-zod) (not choosen yet)
 - [framer-motion](https://www.framer.com/motion)
+- [react-number-format](https://github.com/s-yadav/react-number-format) to format inputs
  
 ## Table Of Contents
 - [Project Task](docs/project-task.md)
