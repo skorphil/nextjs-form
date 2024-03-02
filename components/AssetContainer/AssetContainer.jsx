@@ -19,8 +19,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  NumberInput,
-  NumberInputField,
   VStack,
   HStack,
   Checkbox,
@@ -28,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useFormContext } from "react-hook-form";
+import { AmountInput } from "./AmountInput";
 
 // TODO format registered number input
 // TODO format currency to all caps
@@ -37,39 +36,13 @@ export function AssetContainer({
   isCompact = false,
   onDeleteAsset,
 }) {
-  const { register, setValue } = useFormContext();
-
-  const amountInput = (
-    <HStack align="end" spacing={1} flex={1}>
-      {/* <p>{`fieldState: ${isDirty}`}</p> */}
-      <FormControl>
-        {isCompact || <FormLabel>Amount</FormLabel>}
-        <NumberInput>
-          <NumberInputField
-            {...register(`${assetName}.amount`, { valueAsNumber: true })}
-            px={2}
-          />
-        </NumberInput>
-      </FormControl>
-      <Input
-        {...register(`${assetName}.currency`, {
-          onChange: (e) => {
-            const upperCaseValue = e.target.value.toUpperCase();
-            setValue(`${assetName}.currency`, upperCaseValue);
-          },
-        })}
-        placeholder="USD"
-        flexShrink={0}
-        w={14}
-        px={2}
-      />
-    </HStack>
-  );
+  const { register } = useFormContext();
 
   return (
     <VStack align="start" spacing={3} w="100%">
       <HStack w="100%" align="end" spacing={4}>
-        {amountInput}
+        {/* {amountInput} */}
+        <AmountInput assetName={assetName} isCompact={isCompact} />
         {isCompact || (
           <Checkbox {...register(`${assetName}.isEarning`)} h={10} size="lg">
             Earning
@@ -92,7 +65,3 @@ export function AssetContainer({
     </VStack>
   );
 }
-
-// const [amount, setAmount] = useState(0);
-// const numFormat = (val) => val.toLocaleString();
-// const parse = (val) => Number(val.replace(/^\$/, ""));
