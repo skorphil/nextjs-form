@@ -13,6 +13,7 @@ import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "~/FormHeader";
 import { DevTool } from "@hookform/devtools";
 import { handleInstitution } from "handlers";
+import { useRouter } from "next/navigation";
 
 const prevRecord = {
   institutions: [
@@ -108,9 +109,9 @@ const prevRecord = {
 };
 
 export function RecordForm({ onSubmit }) {
-  const isClient = typeof window !== "undefined";
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
+  const router = useRouter();
   const arrayName = "institutions";
   const { control, ...form } = useForm({
     defaultValues: prevRecord,
@@ -159,7 +160,14 @@ export function RecordForm({ onSubmit }) {
             text="New Record"
             rightButtons={
               <>
-                <Button variant="outline">Cancel</Button>
+                <Button
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                  variant="outline"
+                >
+                  Cancel
+                </Button>
                 <Button onClick={() => console.log(formMethods.getValues())}>
                   Save
                 </Button>
