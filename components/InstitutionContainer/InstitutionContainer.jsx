@@ -31,7 +31,7 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
     <VStack
       bg="gray.800"
       borderRadius={isInstitutionOpen || "lg"}
-      h="fit-content"
+      h="100%"
       minHeight="100%"
     >
       {isInstitutionOpen && (
@@ -39,7 +39,7 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
           borderBottom="1px"
           borderColor="whiteAlpha.200"
           bg="gray.800"
-          position="fixed"
+          position="absolute"
           w="100%"
           zIndex={1300}
         >
@@ -61,7 +61,9 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
         flexGrow={1}
         w="100%"
         alignItems="start"
-        h="100%"
+        // h="100%"
+        overflow="auto"
+        flexShrink={1}
         spacing={isInstitutionOpen ? 8 : 2}
         padding={isInstitutionOpen ? 2 : 3}
       >
@@ -126,13 +128,7 @@ const AssetsList = ({ isInstitutionOpen, institutionName }) => {
   } = useFormContext();
 
   return (
-    <VStack
-      p="1px"
-      w="100%"
-      overflow="auto"
-      spacing={isInstitutionOpen ? 6 : 2}
-      align="start"
-    >
+    <VStack p="1px" w="100%" spacing={isInstitutionOpen ? 6 : 2} align="start">
       {assets.map((asset, index) => (
         <AssetContainer
           key={asset.id}

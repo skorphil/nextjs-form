@@ -21,7 +21,7 @@ export function InstitutionsTabsList({ simulateKeyboard = false }) {
     simulateKeyboard || (window.innerHeight - height > 200 ? true : false);
 
   return (
-    <Box my={isKeyboardOpened || 3}>
+    <Box my={isKeyboardOpened || 3} paddingTop={2}>
       {isKeyboardOpened || <Heading size="md">Record Institutions</Heading>}
       <Box
         key="boxtab1"
