@@ -14,6 +14,7 @@ import { FormHeader } from "~/FormHeader";
 import { DevTool } from "@hookform/devtools";
 import { handleInstitution } from "handlers";
 import { useRouter } from "next/navigation";
+import { appendRecord } from "serverActions/appendRecord";
 
 const prevRecord = {
   institutions: [
@@ -168,7 +169,12 @@ export function RecordForm({ onSubmit }) {
                 >
                   Cancel
                 </Button>
-                <Button onClick={() => console.log(formMethods.getValues())}>
+                <Button
+                  onClick={formMethods.handleSubmit((data) => {
+                    console.log("formData:", data);
+                    appendRecord(data);
+                  })}
+                >
                   Save
                 </Button>
               </>

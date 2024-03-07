@@ -1,4 +1,4 @@
-import { dbConnect } from "../../lib/dbConnect";
+import { dbConnect } from "../../serverActions/appendRecord";
 
 export default async function handler(req, res) {
   //the rest of your code here
