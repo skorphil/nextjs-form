@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "all": "npm-run-all -p storybook dev",
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
