@@ -4,15 +4,22 @@ import { Box, Button, Center } from "@chakra-ui/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { RecordForm } from "~/RecordForm";
+import { getLatestRecord } from "serverActions/getLatestRecord";
 
 export default function Home() {
   // const isClient = typeof window !== "undefined";
   const isFormOpen = useSearchParams().get("newrecord");
-  console.log(isFormOpen);
+
   return (
     <>
       {isFormOpen && (
-        <Center h="100dvh" pos="absolute" width="100%" bg="rgb(0 0 0 / 0.8)">
+        <Center
+          h="100dvh"
+          pos="absolute"
+          width="100%"
+          bg="rgb(0 0 0 / 0.8)"
+          zIndex="overlay"
+        >
           <Box
             bg="chakra-body-bg"
             borderRadius={[0, "md"]}
@@ -26,6 +33,9 @@ export default function Home() {
         </Center>
       )}
       <main>
+        <Button onClick={async () => getLatestRecord()}>
+          Log latest record
+        </Button>
         <nav>
           <Link href="/?newrecord=true">Add record</Link>
         </nav>

@@ -1,3 +1,16 @@
+/* 
+Server action appends new record to mongoDB
+
+Record transformed before being appended. 
+- Added quotes
+- Added date
+- Removed institutions with 'isDeleted:true'
+*/
+
+// TODO add error handling to ui
+// TODO add success handling to UI
+// TODO prevent adding multiple records per month. Ask to override
+
 "use server";
 
 import Ajv from "ajv";
@@ -62,9 +75,6 @@ export async function appendRecord(formData) {
   if (!isFormDataValid) {
     throw new Error(`Provided data has wrong structure: ${ajv.errorsText()}`);
   }
-  // TODO add error handling to ui
-  // TODO add success handling to UI
-  // TODO prevent adding multiple records per month. Ask to override
 
   const recordInstitutions = formData.institutions
     .filter((institution) => !institution.isDeleted)
