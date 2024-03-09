@@ -11,111 +11,19 @@ import { useState } from "react";
 
 import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "~/FormHeader";
-import { DevTool } from "@hookform/devtools";
+// import { DevTool } from "@hookform/devtools";
 import { handleInstitution } from "handlers";
 import { useRouter } from "next/navigation";
 import { appendRecord } from "serverActions/appendRecord";
+import { getLatestRecord } from "serverActions/getLatestRecord";
 
-const prevRecord = {
-  institutions: [
-    {
-      name: "City Bank",
-      country: "it",
-      isDeleted: false,
-      assets: [
-        {
-          amount: 10000,
-          currency: "usd",
-          isEarning: false,
-          description: "My Visa debit card",
-        },
-        {
-          amount: 300000,
-          currency: "eur",
-          isEarning: true,
-          description: "My Deposit",
-        },
-        {
-          amount: 1000,
-          currency: "cny",
-          isEarning: true,
-          description: "",
-        },
-        {
-          amount: 5000,
-          currency: "chf",
-          isEarning: false,
-          description: "",
-        },
-      ],
-    },
-    {
-      name: "Wells & Fargo",
-      country: "",
-      isDeleted: false,
-      assets: [
-        {
-          amount: 6443,
-          currency: "brl",
-          isEarning: false,
-          description: "Debit card",
-        },
-        {
-          amount: 8765,
-          currency: "eur",
-          isEarning: true,
-          description: "My Deposit",
-        },
-        {
-          amount: 1234,
-          currency: "cny",
-          isEarning: true,
-          description: "",
-        },
-      ],
-    },
-    {
-      name: "Bank Of America",
-      country: "",
-      isDeleted: false,
-      assets: [
-        {
-          amount: 1700,
-          currency: "usd",
-          isEarning: false,
-          description: "My Visa debit card",
-        },
-        {
-          amount: 376000,
-          currency: "usd",
-          isEarning: true,
-          description: "My Deposit",
-        },
-      ],
-    },
-    {
-      name: "Raiffeisen Bank",
-      country: "",
-      isDeleted: false,
-      assets: [
-        {
-          amount: 888,
-          currency: "usd",
-          isEarning: false,
-          description: "My Visa debit card",
-        },
-      ],
-    },
-  ],
-};
-
-export function RecordForm({ onSubmit }) {
+export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
   const router = useRouter();
   const arrayName = "institutions";
   const { control, ...form } = useForm({
-    defaultValues: prevRecord,
+    defaultValues: async () => getLatestRecord(),
   });
   const institutionsFieldArray = useFieldArray({
     control,
@@ -155,7 +63,7 @@ export function RecordForm({ onSubmit }) {
 
   return (
     <FormProvider {...formMethods}>
-      <form className={classes.RecordForm} /* action={onSubmit} */>
+      <form className={classes.RecordForm}>
         {isInstitutionOpen || (
           <FormHeader
             text="New Record"
@@ -171,7 +79,6 @@ export function RecordForm({ onSubmit }) {
                 </Button>
                 <Button
                   onClick={formMethods.handleSubmit((data) => {
-                    console.log("formData:", data);
                     appendRecord(data);
                   })}
                 >

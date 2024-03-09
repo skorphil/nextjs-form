@@ -1,4 +1,4 @@
-## Data Flow
+## Initial Data Flow
 
 - [App Architecture](app-architecture.md)
 - Data Flow
