@@ -2,30 +2,30 @@
 
 // TODO add animation transaction from collapsed do expanded
 
-import {
-  Heading,
-  VStack,
-  FormLabel,
-  FormControl,
-  Input,
-  IconButton,
-  HStack,
-  Button,
-  ButtonGroup,
-  Box,
-} from "@chakra-ui/react";
-import { AssetContainer } from "~/AssetContainer";
-import { CgMinimizeAlt, CgPen } from "react-icons/cg";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { VStack, IconButton, HStack, Box } from "@chakra-ui/react";
+import { CgMinimizeAlt } from "react-icons/cg";
+import { useFormContext } from "react-hook-form";
 import { FormHeader } from "~/FormHeader";
+import { InstitutionNameInput } from "./InstitutionNameInput";
+import { InstitutionCountryInput } from "./InstitutionCountryInput";
+import { CompactHeader } from "./CompactHeader";
+import { AssetsList } from "./AssetsList";
 
 // TODO fixed header
 // TODO Fix keyboard openLayout
 // TODO Update stories to suit use-form
 export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
-  // console.log("InstitutionContainer Rendered");
-  const { getValues, handlers: formHandlers = { handleInstitutionOpen } } =
-    useFormContext();
+  const {
+    getValues,
+    institutionsFieldArray,
+    handlers: formHandlers = { handleInstitutionOpen },
+  } = useFormContext();
+
+  // Fast solution to allow edit name of newly created institution
+  // Will be replaced whith https://github.com/users/skorphil/projects/4/views/1?pane=issue&itemId=53834705
+  const institutionIndex = parseInt(institutionName.split(".")[1]);
+  const institutionFields = institutionsFieldArray.fields[institutionIndex];
+  const isNew = institutionFields.name === "";
 
   return (
     <VStack
@@ -61,7 +61,6 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
         flexGrow={1}
         w="100%"
         alignItems="start"
-        // h="100%"
         overflow="auto"
         flexShrink={1}
         spacing={isInstitutionOpen ? 8 : 2}
@@ -75,8 +74,14 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
         )}
         {isInstitutionOpen && (
           <HStack w="100%" align="end" spacing={3}>
-            <InstitutionNameInput institutionName={institutionName} />
-            <InstitutionCountryInput institutionName={institutionName} />
+            <InstitutionNameInput
+              institutionName={institutionName}
+              disabled={!isNew}
+            />
+            <InstitutionCountryInput
+              institutionName={institutionName}
+              disabled={!isNew}
+            />
           </HStack>
         )}
         <AssetsList
@@ -87,132 +92,3 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
     </VStack>
   );
 }
-
-const ExpandedHeader = () => {
-  return (
-    <HStack
-      as="header"
-      zIndex={129}
-      overflow="hidden"
-      pos="fixed"
-      top={0}
-      w="100%"
-      align="center"
-      spacing={3}
-      justify={"space-between"}
-    >
-      <Heading size="md">Edit Institution</Heading>
-      <IconButton
-        variant="solid"
-        aria-label="Minimize institution form"
-        icon={<CgMinimizeAlt />}
-      />
-    </HStack>
-  );
-};
-
-const AssetsList = ({ isInstitutionOpen, institutionName }) => {
-  const arrayName = `${institutionName}.assets`;
-  const institutionIndex = parseInt(institutionName.split(".")[1]);
-  // console.log("AssetsList rendered");
-  const {
-    fields: assets,
-    remove,
-    append,
-  } = useFieldArray({
-    name: arrayName,
-  });
-  const {
-    resetField,
-    handlers: { handleInstitutionDelete },
-  } = useFormContext();
-
-  return (
-    <VStack p="1px" w="100%" spacing={isInstitutionOpen ? 6 : 2} align="start">
-      {assets.map((asset, index) => (
-        <AssetContainer
-          key={asset.id}
-          onDeleteAsset={() => remove(index)}
-          assetName={`${arrayName}.${index}`}
-          isCompact={!isInstitutionOpen}
-        />
-      ))}
-
-      {isInstitutionOpen && (
-        <>
-          <Button
-            onClick={() =>
-              append({
-                amount: "",
-                currency: "",
-                isEarning: false,
-                description: "",
-              })
-            }
-            flexShrink={0}
-          >
-            Add Asset
-          </Button>
-          <ButtonGroup alignSelf="end">
-            <Button
-              variant="outline"
-              onClick={() => handleInstitutionDelete(institutionIndex)}
-            >
-              Delete
-            </Button>
-            <Button onClick={() => resetField(arrayName)} variant="outline">
-              Reset
-            </Button>
-          </ButtonGroup>
-        </>
-      )}
-    </VStack>
-  );
-};
-
-const InstitutionNameInput = ({ institutionName }) => {
-  const { register } = useFormContext();
-  return (
-    <FormControl>
-      <FormLabel>Institution Name</FormLabel>
-      <Input
-        disabled={true}
-        {...register(`${institutionName}.name`, {
-          // disabled: true, // Not showing it inside header with `getValues` or `watch`.
-        })}
-        px={2}
-        w="100%"
-      />
-    </FormControl>
-  );
-};
-
-const InstitutionCountryInput = ({ institutionName }) => {
-  const { register } = useFormContext();
-  return (
-    <FormControl w={20}>
-      <FormLabel>Country</FormLabel>
-      <Input
-        disabled={true}
-        {...register(`${institutionName}.country`, {})}
-        px={2}
-      />
-    </FormControl>
-  );
-};
-
-const CompactHeader = ({ text, onEdit }) => {
-  return (
-    <HStack justifyContent="space-between" w="100%">
-      <Heading flexShrink={0} size="sm">
-        {text}
-      </Heading>
-      <IconButton
-        onClick={onEdit}
-        variant="ghost"
-        aria-label="Edit institution"
-        icon={<CgPen />}
-      />
-    </HStack>
-  );
-};
