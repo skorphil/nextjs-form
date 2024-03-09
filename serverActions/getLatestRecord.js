@@ -1,3 +1,12 @@
+/* 
+Server Action used to get latest record from mongodb.
+
+Latest record then transfomed into format, which is used by react-hook-form in RecordForm 
+as defaultValues.  
+*/
+
+// TODO pass errors to RecordForm
+
 "use server";
 
 import connect from "utils/mongooseConnect";

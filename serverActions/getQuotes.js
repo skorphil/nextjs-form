@@ -1,3 +1,9 @@
+/* 
+Helper server action which used in appendRecord() get quotes based on app's base
+curencies list(currencies we need to calculate to)
+and currencies from record being saved
+*/
+
 "use server";
 
 export async function getQuotes({ baseCurrencies, recordCurrencies }) {
