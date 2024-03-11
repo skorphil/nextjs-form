@@ -9,6 +9,7 @@
     /Component
         index.js // enterance point with all neccecary exports
         Component.jsx
+        SubComponentX.jsx // SubComponents used in Component.jsx 
         Component.stories.jsx // Storybook stories
         Component.chakra.js // Chakra component styling
         Component.module.css // CSS module
