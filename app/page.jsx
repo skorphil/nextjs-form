@@ -21,6 +21,8 @@ export default function Home() {
           zIndex="overlay"
         >
           <Box
+            display="flex"
+            flexDir="column"
             bg="chakra-body-bg"
             borderRadius={[0, "md"]}
             h={["100%", "90%"]}
