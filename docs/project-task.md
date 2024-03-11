@@ -1,9 +1,9 @@
 # Project Task
-Build updated nested form for finance tracker
+Build an updated nested form for the finance tracker
 
 ## Design (simplified)
 ### Mobile view
-Decided to make mobile view, because it looks more complex - components has more UI states, then in desctop
+Decided to make mobile view, because it looks more complex - components have more UI states, than in a desktop version
 
 Form contains:
 - *Header*
@@ -17,21 +17,27 @@ Form contains:
 Single record:
 ```
 {
-  "recordDate": unix,
-  "recordQuotes": {
-    "QUTENAME": number,
-    ...
+    date": unix,
+    quotes: [
+      {
+          baseCurrency: "usd", 
+          rates:[
+               {currency: "brl", rate: 4.94543198},
+               {currency: "amd", rate: 401.94591125},
+          ] 
+      }
+  ]
   }
-  "recordInstitutions": [
+  "institutions": [
     {
-      "institutionName": "str",
-      "institutionCountry": "str",
-      "institutionAssets": [
+      "name": "str",
+      "country": "str",
+      "assets": [
         {
-          "assetCurrency": "str",
-          "assetAmount": number,
-          "isAsset": boolean,
-          "assetDescription": "str"
+          "currency": "str",
+          "amount": number,
+          "isEarning": boolean,
+          "description": "str"
         },
         {...},
       ]
