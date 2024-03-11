@@ -2,24 +2,23 @@
 
 // TODO fix animation framer https://github.com/skorphil/nextjs-form/issues/25
 
-import { InstitutionTab } from "../InstitutionTab";
+import { InstitutionTab } from "~/InstitutionTab";
 import { TabList, Heading, Button, Box, IconButton } from "@chakra-ui/react";
 
 import classes from "./InstitutionsTabsList.module.css";
 import { CgMathPlus } from "react-icons/cg";
 import { useVisualViewportSize } from "../../app/hooks";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
 
-export function InstitutionsTabsList({ simulateKeyboard = false }) {
+export function InstitutionsTabsList({ isKeyboardOpened = false }) {
   const {
     institutionsFieldArray: { fields: institutions },
     handlers: { handleInstitutionCreate },
   } = useFormContext();
   const { height } = useVisualViewportSize();
-  const isKeyboardOpened =
-    simulateKeyboard || (window.innerHeight - height > 200 ? true : false);
-
+  // const isKeyboardOpened =
+  //   simulateKeyboard || (window.innerHeight - height > 200 ? true : false);
   return (
     <Box my={isKeyboardOpened || 3} paddingTop={2}>
       {isKeyboardOpened || <Heading size="md">Record Institutions</Heading>}

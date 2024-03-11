@@ -6,7 +6,7 @@ Root element of the form
 
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import classes from "./RecordForm.module.css";
-import { Button } from "@chakra-ui/react";
+import { Button, Progress, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { InstitutionsList } from "components/InstitutionsList";
@@ -22,6 +22,7 @@ export function RecordForm() {
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
   const router = useRouter();
   const arrayName = "institutions";
+
   const { control, ...form } = useForm({
     defaultValues: async () => getLatestRecord(),
   });
@@ -63,36 +64,40 @@ export function RecordForm() {
 
   return (
     <FormProvider {...formMethods}>
-      <form className={classes.RecordForm}>
-        {isInstitutionOpen || (
-          <FormHeader
-            text="New Record"
-            rightButtons={
-              <>
-                <Button
-                  onClick={() => {
-                    router.push("/");
-                  }}
-                  variant="outline"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={formMethods.handleSubmit((data) => {
-                    appendRecord(data);
-                  })}
-                >
-                  Save
-                </Button>
-              </>
-            }
-          />
-        )}
-        <InstitutionsList
-          isInstitutionOpen={isInstitutionOpen}
-          selectedInstitution={selectedInstitutionIndex}
+      {isInstitutionOpen || (
+        <FormHeader
+          text="New Record"
+          rightButtons={
+            <>
+              <Button
+                onClick={() => {
+                  router.push("/");
+                }}
+                variant="outline"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={formMethods.handleSubmit((data) => {
+                  appendRecord(data);
+                })}
+              >
+                Save
+              </Button>
+            </>
+          }
         />
-      </form>
+      )}
+      {form.formState.isLoading ? (
+        <Progress size="xs" isIndeterminate />
+      ) : (
+        <form className={classes.RecordForm}>
+          <InstitutionsList
+            isInstitutionOpen={isInstitutionOpen}
+            selectedInstitution={selectedInstitutionIndex}
+          />
+        </form>
+      )}
       {/* <DevTool control={formMethods.control} /> */}
     </FormProvider>
   );
