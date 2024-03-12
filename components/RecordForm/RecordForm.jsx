@@ -16,15 +16,23 @@ import { handleInstitution } from "handlers";
 import { useRouter } from "next/navigation";
 import { appendRecord } from "serverActions/appendRecord";
 import { getLatestRecord } from "serverActions/getLatestRecord";
+import { FetchingErrorState } from "./FetchingErrorState";
 
 export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
+  const [errorState, setErrorState] = useState(false);
   const router = useRouter();
   const arrayName = "institutions";
 
   const { control, ...form } = useForm({
-    defaultValues: async () => getLatestRecord(),
+    defaultValues: async () => {
+      try {
+        await getLatestRecord();
+      } catch (error) {
+        setErrorState(error.stack);
+      }
+    },
   });
   const institutionsFieldArray = useFieldArray({
     control,
@@ -90,6 +98,8 @@ export function RecordForm() {
       )}
       {form.formState.isLoading ? (
         <Progress size="xs" isIndeterminate />
+      ) : errorState ? (
+        <FetchingErrorState errorMessage={errorState} />
       ) : (
         <form className={classes.RecordForm}>
           <InstitutionsList
@@ -98,6 +108,7 @@ export function RecordForm() {
           />
         </form>
       )}
+
       {/* <DevTool control={formMethods.control} /> */}
     </FormProvider>
   );

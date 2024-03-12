@@ -23,10 +23,14 @@ stateDiagram-v2
 [*] --> loadingState
 loadingState --> preFilled : fetched previousRecord
 loadingState --> empty : fetched previousRecord == null
+loadingState --> errorFetching
 preFilled --> openedInstitution : BUTTON_PRESS
 empty --> openedInstitution : BUTTON_PRESS
 openedInstitution --> empty : BUTTON_PRESS
 openedInstitution --> preFilled : BUTTON_PRESS
+empty --> edited
+preFilled --> edited
+edited --> errorSubmitting
 ```
 
 ## See also
