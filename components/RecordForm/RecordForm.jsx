@@ -95,14 +95,14 @@ export function RecordForm() {
                     toast({
                       title: "Record saved",
                       status: "success",
-                      duration: 4000,
+                      duration: 3000,
                     });
                   } catch (error) {
                     toast({
                       title: "Error saving record",
                       description: error.message,
                       status: "error",
-                      duration: 4000,
+                      isClosable: true,
                     });
                   }
                 })}

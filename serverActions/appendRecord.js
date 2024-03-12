@@ -88,7 +88,7 @@ export async function appendRecord(formData) {
     )
   );
 
-  const record = new Record({
+  const record = await new Record({
     date: Date.now(),
     quotes: await getQuotes({ baseCurrencies, recordCurrencies }),
     institutions: recordInstitutions,
@@ -97,8 +97,8 @@ export async function appendRecord(formData) {
   try {
     await connect();
     await record.save();
-    console.log("Document saved to db");
+    console.info("record saved to db");
   } catch (error) {
-    throw new Error("Error saving document:", error.message);
+    throw new Error(`Error saving data to database: ${error.message}`);
   }
 }
