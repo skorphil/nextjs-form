@@ -7,7 +7,7 @@ Root element of the form
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import classes from "./RecordForm.module.css";
 import { Button, Progress, useToast } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "~/FormHeader";
@@ -22,7 +22,7 @@ export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
   const [errorState, setErrorState] = useState(false);
-
+  const toast = useToast({ position: "top" });
   const router = useRouter();
   const arrayName = "institutions";
 
@@ -88,8 +88,23 @@ export function RecordForm() {
                 Cancel
               </Button>
               <Button
-                onClick={formMethods.handleSubmit((data) => {
-                  appendRecord(data);
+                onClick={formMethods.handleSubmit(async (data) => {
+                  try {
+                    await appendRecord(data);
+                    router.push("/");
+                    toast({
+                      title: "Record saved",
+                      status: "success",
+                      duration: 4000,
+                    });
+                  } catch (error) {
+                    toast({
+                      title: "Error saving record",
+                      description: error.message,
+                      status: "error",
+                      duration: 4000,
+                    });
+                  }
                 })}
               >
                 Save

@@ -16,7 +16,8 @@ export const InstitutionTab = forwardRef(
     const institutionFields =
       institutionsFieldArray.fields[getInstitutionIndex(institutionName)];
     const institutionDefaultValues =
-      defaultValues.institutions[getInstitutionIndex(institutionName)];
+      defaultValues.institutions?.[getInstitutionIndex(institutionName)] ??
+      null;
     const institutionCurrentValues = useWatch({
       control,
       name: institutionName,

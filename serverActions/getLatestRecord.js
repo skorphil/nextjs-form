@@ -19,7 +19,7 @@ export async function getLatestRecord() {
       .sort({ createdAt: -1 })
       .limit(1)
       .exec();
-    const institutionsList = latestRecord[0].institutions.toObject({
+    const institutionsList = latestRecord[0]?.institutions.toObject({
       transform: function (doc, ret) {
         delete ret._id;
         return ret;
@@ -27,7 +27,7 @@ export async function getLatestRecord() {
     });
 
     const initialValues = {
-      institutions: institutionsList.map((institution) => ({
+      institutions: institutionsList?.map((institution) => ({
         ...institution,
         isDeleted: false,
       })),
