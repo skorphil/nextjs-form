@@ -29,7 +29,7 @@ function InstitutionsList({
       variant="grid"
       padding={isInstitutionOpen || 2}
     >
-      <TabPanels flexGrow={1} flexShrink={1} minH="200px">
+      <TabPanels flexGrow={1} flexShrink={1} h="200px">
         {institutions.map((institution, index) => (
           <TabPanel p={0} key={institution.id} h="100%">
             <InstitutionContainer
