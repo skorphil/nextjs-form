@@ -7,7 +7,7 @@ Root element of the form
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import classes from "./RecordForm.module.css";
 import { Button, Progress, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "~/FormHeader";
@@ -22,13 +22,15 @@ export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
   const [errorState, setErrorState] = useState(false);
+
   const router = useRouter();
   const arrayName = "institutions";
 
   const { control, ...form } = useForm({
     defaultValues: async () => {
       try {
-        await getLatestRecord();
+        const initialValues = await getLatestRecord();
+        return initialValues;
       } catch (error) {
         setErrorState(error.stack);
       }
