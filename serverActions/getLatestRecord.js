@@ -35,6 +35,6 @@ export async function getLatestRecord() {
 
     return initialValues;
   } catch (error) {
-    throw new Error("Error saving document:", error);
+    throw error;
   }
 }
