@@ -13,16 +13,20 @@ export async function getQuotes({ baseCurrencies, recordCurrencies }) {
   );
 
   async function fetchQuotes(fetchUrls) {
-    try {
-      const promises = fetchUrls.map((url) => fetch(url));
-      const responses = await Promise.all(promises);
-      const data = await Promise.all(
-        responses.map((response) => response.json())
-      );
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+    const promises = await fetchUrls.map(async (url) => fetch(url));
+
+    const responses = await Promise.all(promises);
+    const data = await Promise.all(
+      responses.map(async (response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Quotes API request failed with status ${response.status}. Url: ${response.url}`
+          );
+        }
+        return await response.json();
+      })
+    );
+    return data;
   }
 
   const quotes = (await fetchQuotes(fetchUrls))
