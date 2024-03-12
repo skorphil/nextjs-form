@@ -99,6 +99,6 @@ export async function appendRecord(formData) {
     await record.save();
     console.log("Document saved to db");
   } catch (error) {
-    throw new Error("Error saving document:", error);
+    throw new Error("Error saving document:", error.message);
   }
 }
