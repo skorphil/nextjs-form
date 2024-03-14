@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 async function connect() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Database connected!");
+    console.info("Database connected");
   } catch (error) {
-    throw ("MongooseConnect error:", error);
+    throw ("mongooseConnect error:", error.message);
   }
 }
 
