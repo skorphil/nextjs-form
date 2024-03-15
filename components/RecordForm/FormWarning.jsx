@@ -9,8 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import Link from "next/link";
-
 export function FormWarning({ heading, message, onHide }) {
   return (
     <Box bg="yellow.900" m={2} borderRadius="md">

@@ -6,7 +6,7 @@ Root element of the form
 
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import classes from "./RecordForm.module.css";
-import { Button, Progress, useToast } from "@chakra-ui/react";
+import { Button, Progress, useToast, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { InstitutionsList } from "components/InstitutionsList";
@@ -16,7 +16,7 @@ import { handleInstitution } from "handlers";
 import { useRouter } from "next/navigation";
 import { appendRecord } from "serverActions/appendRecord";
 // import { getLatestRecord } from "serverActions/getLatestRecord";
-import { FetchingErrorState } from "./FetchingErrorState";
+import { FormStateOverlay } from "./FormStateOverlay";
 import { getDefaultValues } from "./utils/getDefaultValues";
 import { isInCurrentMonth } from "./utils/isDateInCurrentMonth";
 import { FormWarning } from "./FormWarning";
@@ -24,7 +24,7 @@ import { FormWarning } from "./FormWarning";
 export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
-  const [errorState, setErrorState] = useState(false);
+  const [formOverlay, setFormOverlay] = useState(false);
   const [warningState, setWarningState] = useState(null);
   const toast = useToast({ position: "top" });
   const router = useRouter();
@@ -35,7 +35,26 @@ export function RecordForm() {
       try {
         const initialValues = await getDefaultValues();
         if (initialValues === null) {
-          console.log("no def values");
+          setFormOverlay({
+            children: (
+              <>
+                <Heading as="h1" size="md">
+                  No institutions were added yet
+                </Heading>
+                <Text>Create your first institution</Text>
+                <Button
+                  mt={2}
+                  onClick={() => {
+                    formMethods.handlers.handleInstitutionCreate();
+                    setFormOverlay(null);
+                  }}
+                >
+                  Add institution
+                </Button>
+              </>
+            ),
+            image: "/empty.svg",
+          });
         } else if (isInCurrentMonth(initialValues.date)) {
           setWarningState({
             heading: `Record from ${new Date(
@@ -51,7 +70,18 @@ export function RecordForm() {
         }
         return initialValues;
       } catch (error) {
-        setErrorState(error.stack);
+        setFormOverlay({
+          children: (
+            <>
+              <Heading as="h1" size="md">
+                Cannot check previos record
+              </Heading>
+              <Text>Try to reload the page</Text>
+            </>
+          ),
+          errorMessage: error.stack,
+          image: "/server-down.svg",
+        });
       }
     },
   });
@@ -108,6 +138,7 @@ export function RecordForm() {
                   Cancel
                 </Button>
                 <Button
+                  isDisabled={form.formState.isLoading || formOverlay}
                   onClick={formMethods.handleSubmit(async (data) => {
                     try {
                       await appendRecord(data);
@@ -148,8 +179,13 @@ export function RecordForm() {
 
       {form.formState.isLoading ? (
         <Progress size="xs" isIndeterminate />
-      ) : errorState ? (
-        <FetchingErrorState errorMessage={errorState} />
+      ) : formOverlay ? (
+        <FormStateOverlay
+          image={formOverlay.image}
+          errorMessage={formOverlay.errorMessage}
+        >
+          {formOverlay.children}
+        </FormStateOverlay>
       ) : (
         <form className={classes.RecordForm}>
           <InstitutionsList
