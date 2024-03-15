@@ -12,20 +12,22 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 
-export function FetchingErrorState({ errorMessage }) {
+export function FormStateOverlay({ image, errorMessage, children }) {
+  /**
+   * Overlay to display errors or states in RecordForm
+   */
   return (
     <VStack justifyContent="space-between" h="100%">
       <Center flexGrow={1}>
         <VStack>
-          <Image
-            src="/server-down.svg"
-            alt="Server error illustration"
-            boxSize="240px"
-          />
-          <Heading as="h1" size="md">
-            Cannot check previos record
-          </Heading>
-          <Text>Try to reload the page</Text>
+          {image && (
+            <Image
+              src={image}
+              alt="Server error illustration"
+              boxSize="240px"
+            />
+          )}
+          {children}
         </VStack>
       </Center>
 
