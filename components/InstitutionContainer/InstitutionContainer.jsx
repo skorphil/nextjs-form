@@ -29,10 +29,10 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
 
   return (
     <VStack
-      bg="gray.800"
-      borderRadius={isInstitutionOpen || "lg"}
-      h="100%"
-      minHeight="100%"
+    // bg="gray.800"
+    // borderRadius={isInstitutionOpen || "lg"}
+    // h="100%"
+    // minHeight="100%"
     >
       {isInstitutionOpen && (
         <Box
