@@ -4,22 +4,21 @@ Root element of the form
 
 "use client";
 
-import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+// import { DevTool } from "@hookform/devtools";
 import classes from "./RecordForm.module.css";
-import { Button, Progress, useToast, Heading, Text } from "@chakra-ui/react";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { Button, Progress, useToast } from "@chakra-ui/react";
 import { InstitutionsList } from "components/InstitutionsList";
-import { FormHeader } from "~/FormHeader";
-// import { DevTool } from "@hookform/devtools";
-import { handleInstitution } from "handlers";
-import { useRouter } from "next/navigation";
+import { FormHeader } from "components/FormHeader";
+import { FormStateOverlay, FormWarning } from "./components";
+
 import { appendRecord } from "serverActions/appendRecord";
-// import { getLatestRecord } from "serverActions/getLatestRecord";
-import { FormStateOverlay } from "./FormStateOverlay";
-import { getDefaultValues } from "./utils/getDefaultValues";
-import { isInCurrentMonth } from "./utils/isDateInCurrentMonth";
-import { FormWarning } from "./FormWarning";
+import { getDefaultValues } from "./utils";
+import { handleInstitution } from "handlers";
+import { handleSavingSuccess, handleSavingError } from "./handlers";
 
 export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
@@ -29,61 +28,13 @@ export function RecordForm() {
   const toast = useToast({ position: "top" });
   const router = useRouter();
   const arrayName = "institutions";
-
   const { control, ...form } = useForm({
-    defaultValues: async () => {
-      try {
-        const initialValues = await getDefaultValues();
-        if (initialValues === null) {
-          setFormOverlay({
-            children: (
-              <>
-                <Heading as="h1" size="md">
-                  No institutions were added yet
-                </Heading>
-                <Text>Create your first institution</Text>
-                <Button
-                  mt={2}
-                  onClick={() => {
-                    formMethods.handlers.handleInstitutionCreate();
-                    setFormOverlay(null);
-                  }}
-                >
-                  Add institution
-                </Button>
-              </>
-            ),
-            image: "/empty.svg",
-          });
-        } else if (isInCurrentMonth(initialValues.date)) {
-          setWarningState({
-            heading: `Record from ${new Date(
-              initialValues.date
-            ).toLocaleDateString("en-US", {
-              day: "numeric",
-              month: "long",
-            })} will be replaced`,
-            message: `There is a saved record for this month already.
-            Saving current record will override that.`,
-            isVisible: true,
-          });
-        }
-        return initialValues;
-      } catch (error) {
-        setFormOverlay({
-          children: (
-            <>
-              <Heading as="h1" size="md">
-                Cannot check previos record
-              </Heading>
-              <Text>Try to reload the page</Text>
-            </>
-          ),
-          errorMessage: error.stack,
-          image: "/server-down.svg",
-        });
-      }
-    },
+    defaultValues: async () =>
+      getDefaultValues({
+        setFormOverlay,
+        setWarningState,
+        handleInstitutionCreate: formMethods.handlers.handleInstitutionCreate,
+      }),
   });
   const institutionsFieldArray = useFieldArray({
     control,
@@ -143,18 +94,9 @@ export function RecordForm() {
                     try {
                       await appendRecord(data);
                       router.push("/");
-                      toast({
-                        title: "Record saved",
-                        status: "success",
-                        duration: 3000,
-                      });
+                      handleSavingSuccess({ toast });
                     } catch (error) {
-                      toast({
-                        title: "Error saving record",
-                        description: error.message,
-                        status: "error",
-                        isClosable: true,
-                      });
+                      handleSavingError({ toast, error });
                     }
                   })}
                 >
