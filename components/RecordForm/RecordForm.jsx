@@ -22,7 +22,8 @@ import { handleSavingSuccess, handleSavingError } from "./handlers";
 
 export function RecordForm() {
   const [isInstitutionOpen, setIsInstitutionOpen] = useState(false);
-  const [selectedInstitutionIndex, setSelectedInstitutionIndex] = useState(0);
+  const [selectedInstitutionIndex, setSelectedInstitutionIndex] =
+    useState(null);
   const [formOverlay, setFormOverlay] = useState(false);
   const [warningState, setWarningState] = useState(null);
   const toast = useToast({ position: "top" });
