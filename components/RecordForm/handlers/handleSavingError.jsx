@@ -1,6 +1,3 @@
-/*
-Root element of the form
-*/
 "use client";
 export function handleSavingError({ toast, error }) {
   toast({

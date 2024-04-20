@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Button, Progress, useToast } from "@chakra-ui/react";
 import { InstitutionsList } from "components/InstitutionsList";
 import { FormHeader } from "components/FormHeader";
-import { FormStateOverlay, FormWarning } from "./components";
+import { FormOverlay, FormAlert } from "./components";
 
 import { appendRecord } from "serverActions/appendRecord";
 import { getDefaultValues } from "./utils";
@@ -25,7 +25,7 @@ export function RecordForm() {
   const [selectedInstitutionIndex, setSelectedInstitutionIndex] =
     useState(null);
   const [formOverlay, setFormOverlay] = useState(false);
-  const [warningState, setWarningState] = useState(null);
+  const [formAlert, setFormAlert] = useState(null);
   const toast = useToast({ position: "top" });
   const router = useRouter();
   const arrayName = "institutions";
@@ -33,7 +33,7 @@ export function RecordForm() {
     defaultValues: async () =>
       getDefaultValues({
         setFormOverlay,
-        setWarningState,
+        setFormAlert,
         handleInstitutionCreate: formMethods.handlers.handleInstitutionCreate,
       }),
   });
@@ -106,11 +106,11 @@ export function RecordForm() {
               </>
             }
           />
-          {warningState?.isVisible && (
-            <FormWarning
-              {...warningState}
+          {formAlert?.isVisible && (
+            <FormAlert
+              {...formAlert}
               onHide={() =>
-                setWarningState((current) => ({
+                setFormAlert((current) => ({
                   ...current,
                   isVisible: false,
                 }))
@@ -123,12 +123,12 @@ export function RecordForm() {
       {form.formState.isLoading ? (
         <Progress size="xs" isIndeterminate />
       ) : formOverlay ? (
-        <FormStateOverlay
+        <FormOverlay
           image={formOverlay.image}
           errorMessage={formOverlay.errorMessage}
         >
           {formOverlay.children}
-        </FormStateOverlay>
+        </FormOverlay>
       ) : (
         <form className={classes.RecordForm}>
           <InstitutionsList

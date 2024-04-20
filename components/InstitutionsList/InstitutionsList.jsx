@@ -1,22 +1,14 @@
 "use client";
 
 import { InstitutionsTabsList } from "../InstitutionsTabsList";
-import { InstitutionContainer } from "../InstitutionContainer";
-import {
-  Tabs,
-  Text,
-  TabPanels,
-  TabPanel,
-  Center,
-  Heading,
-  VStack,
-  Image,
-} from "@chakra-ui/react";
+import { Tabs } from "@chakra-ui/react";
 import { useVisualViewportSize } from "../../app/hooks";
 import classes from "./InstitutionsList.module.css";
 import { useFormContext } from "react-hook-form";
+import { InstitutionPanel } from "./components";
 
 function InstitutionsList({
+  institutionPanelOverlay,
   simulateKeyboard = false,
   isInstitutionOpen,
   selectedInstitution,
@@ -38,7 +30,8 @@ function InstitutionsList({
       variant="grid"
       padding={isInstitutionOpen || 2}
     >
-      <ContentPanel
+      <InstitutionPanel
+        institutionPanelOverlay={institutionPanelOverlay}
         institutions={institutions}
         selectedInstitution={selectedInstitution}
         isInstitutionOpen={isInstitutionOpen}
@@ -55,55 +48,3 @@ function InstitutionsList({
 }
 
 export { InstitutionsList };
-
-function ContentPanel({
-  institutions,
-  selectedInstitution,
-  isInstitutionOpen,
-}) {
-  return (
-    <TabPanels
-      bg="gray.800"
-      borderRadius={isInstitutionOpen || "lg"}
-      h="100%"
-      minHeight="260px"
-      flexGrow={1}
-      flexShrink={1}
-    >
-      {selectedInstitution === null ? (
-        <ContentPanelOverlay
-          image="/institutions-loaded.svg"
-          headingText="Institutions loaded from latest&nbsp;record"
-          text="Edit institutions to reflect asset updates"
-        />
-      ) : (
-        false
-      )}
-      {institutions.map((institution, index) => (
-        <TabPanel p={0} key={institution.id} h="100%">
-          <InstitutionContainer
-            institutionName={`institutions.${index}`}
-            isInstitutionOpen={isInstitutionOpen}
-          />
-        </TabPanel>
-      ))}
-    </TabPanels>
-  );
-}
-
-function ContentPanelOverlay({ image, headingText, text }) {
-  return (
-    <Center h="100%" p={2}>
-      <VStack gap={12}>
-        <Image src={image} alt="Illustration" boxSize="140px" />
-
-        <VStack>
-          <Heading textAlign="center" size="md">
-            {headingText}
-          </Heading>
-          <Text>{text}</Text>
-        </VStack>
-      </VStack>
-    </Center>
-  );
-}
