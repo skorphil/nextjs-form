@@ -1,0 +1,1 @@
+export { InstitutionPanel } from "./InstitutionPanel";

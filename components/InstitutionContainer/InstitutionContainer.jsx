@@ -21,6 +21,7 @@ export function InstitutionContainer({ institutionName, isInstitutionOpen }) {
     handlers: formHandlers = { handleInstitutionOpen },
   } = useFormContext();
 
+  console.log("container getValues", getValues("institutions"));
   // Fast solution to allow edit name of newly created institution
   // Will be replaced whith https://github.com/users/skorphil/projects/4/views/1?pane=issue&itemId=53834705
   const institutionIndex = parseInt(institutionName.split(".")[1]);

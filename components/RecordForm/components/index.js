@@ -1,2 +1,2 @@
-export { FormStateOverlay } from "./FormStateOverlay";
-export { FormWarning } from "./FormWarning";
+export { FormOverlay } from "./FormOverlay";
+export { FormAlert } from "./FormAlert";

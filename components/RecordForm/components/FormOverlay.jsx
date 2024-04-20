@@ -12,10 +12,15 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 
-export function FormStateOverlay({ image, errorMessage, children }) {
-  /**
-   * Overlay to display errors or states in RecordForm
-   */
+/**
+ * Overlays form body. Used for empty states and blocking errors.
+ * Can contain hidden system error text.
+ *
+ * @param {string} [image] - The path to state illustartion
+ * @param {string} [errorMessage] - System error message
+ * @param children – overlay content
+ */
+export function FormOverlay({ image, errorMessage, children }) {
   return (
     <VStack justifyContent="space-between" h="100%">
       <Center flexGrow={1}>

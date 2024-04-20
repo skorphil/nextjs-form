@@ -1,9 +1,6 @@
-/*
-Root element of the form
-*/
 "use client";
-export function handleRecordExist({ existingRecordDate, setWarningState }) {
-  setWarningState({
+export function handleRecordExist({ existingRecordDate, setFormAlert }) {
+  setFormAlert({
     heading: `Record from ${new Date(existingRecordDate).toLocaleDateString(
       "en-US",
       {

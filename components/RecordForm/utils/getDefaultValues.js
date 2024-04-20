@@ -6,24 +6,23 @@ import {
 } from "../handlers";
 import { isInCurrentMonth } from "./isDateInCurrentMonth";
 
+/**
+ * Get initial values for the RecordForm and handling error states and alerts,
+ * based on received values
+ *
+ * @param setFormOverlay - state setter from RecordForm
+ * @param setFormAlert - state setter from RecordForm
+ * @param handleInstitutionCreate - handler from formMethods whith arguments
+ * from RecordForm
+ *
+ * @returns object to use as react-form-hook defaultValues for {@link RecordForm}
+ * or void if errors / empty states
+ */
 export async function getDefaultValues({
   setFormOverlay,
   handleInstitutionCreate,
-  setWarningState,
+  setFormAlert,
 }) {
-  /**
-   * Get initial values for the RecordForm and handling errors and warnings,
-   * based on received values
-   *
-   * @param setFormOverlay - state setter from RecordForm
-   * @param setWarningState - state setter from RecordForm
-   * @param handleInstitutionCreate - handler from formMethods whith arguments
-   * from RecordForm
-   *
-   * @returns object to use as react-form-hook defaultValues for {@link RecordForm}
-   * or void if errors / empty states
-   */
-
   let latestRecord = null;
   try {
     latestRecord = await getLatestRecord();
@@ -40,7 +39,7 @@ export async function getDefaultValues({
   } else if (isInCurrentMonth(latestRecord.date)) {
     handleRecordExist({
       existingRecordDate: latestRecord.date,
-      setWarningState,
+      setFormAlert,
     });
   }
 

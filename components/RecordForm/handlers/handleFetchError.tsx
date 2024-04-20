@@ -1,6 +1,3 @@
-/*
-Root element of the form
-*/
 "use client";
 import { Heading, Text } from "@chakra-ui/react";
 
